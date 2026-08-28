@@ -4,9 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Our Journey</title>
-  <!-- Supabase JS Client -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- Google Fonts for Classic Aesthetic -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   
   <style>
@@ -26,7 +23,7 @@
       overflow-x: hidden;
     }
 
-    /* --- GENSIN-INSPIRED ENTRANCE SCREEN --- */
+    /* --- GENSHIN-INSPIRED ENTRANCE SCREEN --- */
     #entrance-screen {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -223,13 +220,12 @@
     }
 
     #admin-dashboard-controls {
-      display: none; /* Hidden until correct login */
+      display: none;
     }
   </style>
 </head>
 <body>
 
-  <!-- ENTRANCE SCREEN -->
   <div id="entrance-screen">
     <div style="text-align: center; color: #fff; font-family: 'Cinzel', serif; font-size: 1.5rem; letter-spacing: 3px;">
       Welcome To Our Story
@@ -238,20 +234,17 @@
     <button class="begin-btn" onclick="enterSite()">Click To Begin</button>
   </div>
 
-  <!-- MAIN WEBSITE -->
   <div id="main-content">
     
-    <!-- WEDDING LETTER SECTION -->
     <div class="letter-container">
       <div class="letter-card">
-        <h1 id="display-title">Loading...</h1>
-        <p class="letter-text" id="display-letter">Loading details...</p>
-        <p id="display-date" style="font-weight: bold; color: var(--deep-gold);"></p>
-        <p id="display-venue" style="margin-top: 10px; font-size: 0.95rem; color: #555;"></p>
+        <h1 id="display-title">Our Wedding Invitation</h1>
+        <p class="letter-text" id="display-letter">Welcome to our journey of love! We invite you to explore our story through the years as we step into our forever.</p>
+        <p id="display-date" style="font-weight: bold; color: var(--deep-gold);">October 24, 2026</p>
+        <p id="display-venue" style="margin-top: 10px; font-size: 0.95rem; color: #555;">Ceremony: St. Grace Church at 4:00 PM | Reception: The Grand Ballroom at 6:00 PM</p>
       </div>
     </div>
 
-    <!-- TIMELINE SECTION -->
     <div class="timeline">
       
       <div class="section-title">First Date</div>
@@ -274,11 +267,9 @@
 
     </div>
 
-    <!-- ADMIN DASHBOARD -->
     <div id="admin-section">
       <h2>Admin Control Panel</h2>
       
-      <!-- ADMIN LOGIN FORM -->
       <form id="admin-login-form">
         <div class="form-group">
           <label>Username</label>
@@ -292,9 +283,7 @@
         <p id="login-error" style="color: #ef4444; margin-top: 10px; display: none;">Invalid credentials!</p>
       </form>
 
-      <!-- PROTECTED CONTROLS -->
       <div id="admin-dashboard-controls">
-        <!-- Edit Details Form -->
         <form id="details-form" style="margin-bottom: 30px;">
           <h3>Update Wedding Details</h3>
           <div class="form-group">
@@ -318,7 +307,6 @@
 
         <hr style="border-color: #334155; margin: 30px 0;">
 
-        <!-- Upload Photo Form -->
         <form id="photo-form">
           <h3>Add Timeline Photo URL</h3>
           <div class="form-group">
@@ -345,11 +333,6 @@
   </div>
 
   <script>
-    // --- SUPABASE CONFIGURATION ---
-    const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
     // Fade out entrance screen
     function enterSite() {
       const entrance = document.getElementById('entrance-screen');
@@ -362,106 +345,81 @@
       }, 1200);
     }
 
-    // ADMIN LOGIN CHECK
+    // ADMIN LOGIN CHECK (Username: shogun | Password: 182002)
     document.getElementById('admin-login-form').addEventListener('submit', (e) => {
       e.preventDefault();
-      const user = document.getElementById('admin-username').value;
-      const pass = document.getElementById('admin-password').value;
+      const user = document.getElementById('admin-username').value.trim();
+      const pass = document.getElementById('admin-password').value.trim();
       const errorMsg = document.getElementById('login-error');
 
       if (user === 'shogun' && pass === '182002') {
         document.getElementById('admin-login-form').style.display = 'none';
         document.getElementById('admin-dashboard-controls').style.display = 'block';
+        errorMsg.style.display = 'none';
       } else {
         errorMsg.style.display = 'block';
       }
     });
 
-    // Fetch and display details & photos
-    async function loadData() {
-      // 1. Fetch Details
-      const { data: details } = await supabaseClient
-        .from('wedding_details')
-        .select('*')
-        .eq('id', 1)
-        .single();
+    // Load saved details from LocalStorage
+    function loadData() {
+      const savedDetails = JSON.parse(localStorage.getItem('wedding_details'));
+      if (savedDetails) {
+        document.getElementById('display-title').textContent = savedDetails.title;
+        document.getElementById('display-letter').textContent = savedDetails.letter;
+        document.getElementById('display-date').textContent = savedDetails.date;
+        document.getElementById('display-venue').textContent = savedDetails.venue;
 
-      if (details) {
-        document.getElementById('display-title').textContent = details.title;
-        document.getElementById('display-letter').textContent = details.wedding_letter;
-        document.getElementById('display-date').textContent = details.wedding_date;
-        document.getElementById('display-venue').textContent = details.venue_details;
-
-        // Prefill admin fields
-        document.getElementById('admin-title').value = details.title;
-        document.getElementById('admin-letter').value = details.wedding_letter;
-        document.getElementById('admin-date').value = details.wedding_date;
-        document.getElementById('admin-venue').value = details.venue_details;
+        document.getElementById('admin-title').value = savedDetails.title;
+        document.getElementById('admin-letter').value = savedDetails.letter;
+        document.getElementById('admin-date').value = savedDetails.date;
+        document.getElementById('admin-venue').value = savedDetails.venue;
       }
 
-      // 2. Fetch Photos
-      const { data: photos } = await supabaseClient
-        .from('timeline_photos')
-        .select('*')
-        .order('created_at', { ascending: true });
-
-      if (photos) {
-        // Clear existing grids
-        document.querySelectorAll('.photo-grid').forEach(grid => grid.innerHTML = '');
-        
-        photos.forEach(photo => {
-          const grid = document.getElementById(`grid-${photo.category}`);
-          if (grid) {
-            const frame = document.createElement('div');
-            frame.className = 'classic-frame';
-            frame.innerHTML = `<div class="inner-border"><img src="${photo.image_url}" alt="Memory"></div>`;
-            grid.appendChild(frame);
-          }
-        });
-      }
+      const savedPhotos = JSON.parse(localStorage.getItem('wedding_photos')) || [];
+      document.querySelectorAll('.photo-grid').forEach(grid => grid.innerHTML = '');
+      
+      savedPhotos.forEach(photo => {
+        const grid = document.getElementById(`grid-${photo.category}`);
+        if (grid) {
+          const frame = document.createElement('div');
+          frame.className = 'classic-frame';
+          frame.innerHTML = `<div class="inner-border"><img src="${photo.url}" alt="Memory"></div>`;
+          grid.appendChild(frame);
+        }
+      });
     }
 
     // Handle Details Form Submit
-    document.getElementById('details-form').addEventListener('submit', async (e) => {
+    document.getElementById('details-form').addEventListener('submit', (e) => {
       e.preventDefault();
-      const title = document.getElementById('admin-title').value;
-      const letter = document.getElementById('admin-letter').value;
-      const date = document.getElementById('admin-date').value;
-      const venue = document.getElementById('admin-venue').value;
+      const details = {
+        title: document.getElementById('admin-title').value,
+        letter: document.getElementById('admin-letter').value,
+        date: document.getElementById('admin-date').value,
+        venue: document.getElementById('admin-venue').value
+      };
 
-      const { error } = await supabaseClient
-        .from('wedding_details')
-        .update({ title, wedding_letter: letter, wedding_date: date, venue_details: venue })
-        .eq('id', 1);
-
-      if (!error) {
-        alert('Wedding details updated successfully!');
-        loadData();
-      } else {
-        alert('Error updating details: ' + error.message);
-      }
+      localStorage.setItem('wedding_details', JSON.stringify(details));
+      alert('Wedding details updated successfully!');
+      loadData();
     });
 
     // Handle Photo Form Submit
-    document.getElementById('photo-form').addEventListener('submit', async (e) => {
+    document.getElementById('photo-form').addEventListener('submit', (e) => {
       e.preventDefault();
       const category = document.getElementById('admin-category').value;
-      const image_url = document.getElementById('admin-photo-url').value;
+      const url = document.getElementById('admin-photo-url').value;
 
-      const { error } = await supabaseClient
-        .from('timeline_photos')
-        .insert([{ category, image_url }]);
+      const savedPhotos = JSON.parse(localStorage.getItem('wedding_photos')) || [];
+      savedPhotos.push({ category, url });
+      localStorage.setItem('wedding_photos', JSON.stringify(savedPhotos));
 
-      if (!error) {
-        alert('Photo added!');
-        document.getElementById('admin-photo-url').value = '';
-        loadData();
-      } else {
-        alert('Error adding photo: ' + error.message);
-      }
+      alert('Photo added!');
+      document.getElementById('admin-photo-url').value = '';
+      loadData();
     });
 
-    // Initialize data on page load
     loadData();
   </script>
 </body>
