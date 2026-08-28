@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Our Journey</title>
+  <!-- Google Fonts for Classic Aesthetic -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   
   <style>
@@ -119,7 +120,7 @@
 
     /* --- TIMELINE SECTION --- */
     .timeline {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 50px auto;
       padding: 0 20px;
     }
@@ -133,17 +134,18 @@
       text-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
 
-    /* --- 1900s CLASSIC 3D PHOTO FRAME --- */
+    /* --- 1900s CLASSIC 3D PHOTO FRAME FIX --- */
     .photo-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 35px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
       perspective: 1000px;
+      justify-content: center;
     }
 
     .classic-frame {
       background: #3a2212;
-      padding: 15px;
+      padding: 12px;
       border-radius: 6px;
       box-shadow: 
         0 15px 25px rgba(0,0,0,0.7),
@@ -152,26 +154,52 @@
       transform-style: preserve-3d;
       transition: transform 0.5s ease, box-shadow 0.5s ease;
       cursor: pointer;
+      position: relative;
     }
 
     .classic-frame:hover {
-      transform: rotateY(-8deg) rotateX(8deg) translateZ(20px);
+      transform: rotateY(-5deg) rotateX(5deg) translateZ(10px);
       box-shadow: 
-        -15px 25px 35px rgba(0,0,0,0.9),
+        -10px 20px 30px rgba(0,0,0,0.9),
         0 0 15px var(--gold);
     }
 
     .inner-border {
       border: 3px solid #e0c878;
-      padding: 8px;
+      padding: 6px;
       background: #fff8eb;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .classic-frame img {
       width: 100%;
-      height: 260px;
+      height: 380px;
       object-fit: cover;
-      filter: sepia(0.25) contrast(1.05);
+      filter: sepia(0.15) contrast(1.05);
+      display: block;
+      border-radius: 2px;
+    }
+
+    .delete-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: rgba(220, 38, 38, 0.9);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      display: none;
+      z-index: 10;
+    }
+
+    .classic-frame:hover .delete-btn {
       display: block;
     }
 
@@ -226,6 +254,7 @@
 </head>
 <body>
 
+  <!-- ENTRANCE SCREEN -->
   <div id="entrance-screen">
     <div style="text-align: center; color: #fff; font-family: 'Cinzel', serif; font-size: 1.5rem; letter-spacing: 3px;">
       Welcome To Our Story
@@ -234,8 +263,10 @@
     <button class="begin-btn" onclick="enterSite()">Click To Begin</button>
   </div>
 
+  <!-- MAIN WEBSITE -->
   <div id="main-content">
     
+    <!-- WEDDING LETTER SECTION -->
     <div class="letter-container">
       <div class="letter-card">
         <h1 id="display-title">Our Wedding Invitation</h1>
@@ -245,6 +276,7 @@
       </div>
     </div>
 
+    <!-- TIMELINE SECTION -->
     <div class="timeline">
       
       <div class="section-title">First Date</div>
@@ -262,14 +294,16 @@
       <div class="section-title">4th Anniversary</div>
       <div class="photo-grid" id="grid-4th_ani"></div>
 
-      <div class="section-title">The Wedding (20 Photos)</div>
+      <div class="section-title">The Wedding</div>
       <div class="photo-grid" id="grid-wedding"></div>
 
     </div>
 
+    <!-- ADMIN DASHBOARD -->
     <div id="admin-section">
       <h2>Admin Control Panel</h2>
       
+      <!-- ADMIN LOGIN FORM -->
       <form id="admin-login-form">
         <div class="form-group">
           <label>Username</label>
@@ -283,7 +317,9 @@
         <p id="login-error" style="color: #ef4444; margin-top: 10px; display: none;">Invalid credentials!</p>
       </form>
 
+      <!-- PROTECTED CONTROLS -->
       <div id="admin-dashboard-controls">
+        <!-- Edit Details Form -->
         <form id="details-form" style="margin-bottom: 30px;">
           <h3>Update Wedding Details</h3>
           <div class="form-group">
@@ -307,24 +343,25 @@
 
         <hr style="border-color: #334155; margin: 30px 0;">
 
+        <!-- Upload Photo Form -->
         <form id="photo-form">
-          <h3>Add Timeline Photo</h3>
+          <h3>Upload Photos</h3>
           <div class="form-group">
-            <label>Category</label>
+            <label>Select Category</label>
             <select id="admin-category" required>
-              <option value="first_date">First Date (3-5 Photos)</option>
-              <option value="1st_ani">1st Anniversary (3-5 Photos)</option>
-              <option value="2nd_ani">2nd Anniversary (3-5 Photos)</option>
-              <option value="3rd_ani">3rd Anniversary (3-5 Photos)</option>
-              <option value="4th_ani">4th Anniversary (3-5 Photos)</option>
-              <option value="wedding">Wedding (20 Photos)</option>
+              <option value="first_date">First Date (3 Photos)</option>
+              <option value="1st_ani">1st Anniversary (3 Photos)</option>
+              <option value="2nd_ani">2nd Anniversary (3 Photos)</option>
+              <option value="3rd_ani">3rd Anniversary (3 Photos)</option>
+              <option value="4th_ani">4th Anniversary (3 Photos)</option>
+              <option value="wedding">The Wedding (5 Photos)</option>
             </select>
           </div>
           <div class="form-group">
-            <label>Select Photo from Device</label>
-            <input type="file" id="admin-photo-file" accept="image/*" required />
+            <label>Select Photos from Device (You can pick multiple images at once)</label>
+            <input type="file" id="admin-photo-file" accept="image/*" multiple required />
           </div>
-          <button type="submit" class="btn-submit">Upload Photo</button>
+          <button type="submit" class="btn-submit">Upload Photos</button>
         </form>
       </div>
 
@@ -333,6 +370,8 @@
   </div>
 
   <script>
+    let isAdmin = false;
+
     // Fade out entrance screen
     function enterSite() {
       const entrance = document.getElementById('entrance-screen');
@@ -345,7 +384,7 @@
       }, 1200);
     }
 
-    // ADMIN LOGIN CHECK (Username: shogun | Password: 182002)
+    // ADMIN LOGIN CHECK
     document.getElementById('admin-login-form').addEventListener('submit', (e) => {
       e.preventDefault();
       const user = document.getElementById('admin-username').value.trim();
@@ -353,13 +392,23 @@
       const errorMsg = document.getElementById('login-error');
 
       if (user === 'shogun' && pass === '182002') {
+        isAdmin = true;
         document.getElementById('admin-login-form').style.display = 'none';
         document.getElementById('admin-dashboard-controls').style.display = 'block';
         errorMsg.style.display = 'none';
+        loadData();
       } else {
         errorMsg.style.display = 'block';
       }
     });
+
+    // Remove single photo
+    function deletePhoto(index) {
+      let savedPhotos = JSON.parse(localStorage.getItem('wedding_photos')) || [];
+      savedPhotos.splice(index, 1);
+      localStorage.setItem('wedding_photos', JSON.stringify(savedPhotos));
+      loadData();
+    }
 
     // Load saved details & photos
     function loadData() {
@@ -379,12 +428,20 @@
       const savedPhotos = JSON.parse(localStorage.getItem('wedding_photos')) || [];
       document.querySelectorAll('.photo-grid').forEach(grid => grid.innerHTML = '');
       
-      savedPhotos.forEach(photo => {
+      savedPhotos.forEach((photo, index) => {
         const grid = document.getElementById(`grid-${photo.category}`);
         if (grid) {
           const frame = document.createElement('div');
           frame.className = 'classic-frame';
-          frame.innerHTML = `<div class="inner-border"><img src="${photo.url}" alt="Memory"></div>`;
+          
+          let deleteBtnHTML = isAdmin ? `<button class="delete-btn" onclick="deletePhoto(${index})">✕</button>` : '';
+          
+          frame.innerHTML = `
+            ${deleteBtnHTML}
+            <div class="inner-border">
+              <img src="${photo.url}" alt="Memory">
+            </div>
+          `;
           grid.appendChild(frame);
         }
       });
@@ -410,21 +467,27 @@
       e.preventDefault();
       const category = document.getElementById('admin-category').value;
       const fileInput = document.getElementById('admin-photo-file');
-      const file = fileInput.files[0];
+      const files = Array.from(fileInput.files);
 
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(event) {
-          const base64Url = event.target.result;
-          const savedPhotos = JSON.parse(localStorage.getItem('wedding_photos')) || [];
-          savedPhotos.push({ category, url: base64Url });
-          localStorage.setItem('wedding_photos', JSON.stringify(savedPhotos));
+      if (files.length > 0) {
+        let savedPhotos = JSON.parse(localStorage.getItem('wedding_photos')) || [];
+        let loadedCount = 0;
 
-          alert('Photo uploaded successfully!');
-          fileInput.value = '';
-          loadData();
-        };
-        reader.readAsDataURL(file);
+        files.forEach(file => {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            savedPhotos.push({ category, url: event.target.result });
+            loadedCount++;
+
+            if (loadedCount === files.length) {
+              localStorage.setItem('wedding_photos', JSON.stringify(savedPhotos));
+              alert(`${files.length} photo(s) uploaded successfully!`);
+              fileInput.value = '';
+              loadData();
+            }
+          };
+          reader.readAsDataURL(file);
+        });
       }
     });
 
