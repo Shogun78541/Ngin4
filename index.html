@@ -328,7 +328,7 @@
   <script>
     const IMGBB_API_KEY = "c1ffa015b1f63ba8be938ca1a5c97aa3";
     const SUPABASE_URL = "https://vrtlvjxkcbsrpinlrgvr.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZydGx2anhrY2JzcnBpbmxyZ3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk4NTY3OTksImV4cCI6MjAyNTQzMjc5OX0.dummy_public_key_fallback";
+    const SUPABASE_ANON_KEY = "sb_publishable_NKnRMXIQUwu5PdXBcg89Qg_mSdZu";
 
     let supabaseClient;
     try {
@@ -372,7 +372,7 @@
       }
     });
 
-    // Save Details
+    // Save Details Live
     document.getElementById('details-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = document.getElementById('save-details-btn');
@@ -391,7 +391,7 @@
       renderData();
     });
 
-    // Upload Photos
+    // Upload Photos Live
     document.getElementById('photo-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const category = document.getElementById('admin-category').value;
