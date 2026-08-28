@@ -5,229 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Our Journey</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-  
   <style>
-    :root {
-      --gold: #d4af37;
-      --deep-gold: #aa820a;
-      --dark-bg: #0b0f19;
-      --card-bg: rgba(255, 253, 248, 0.95);
-    }
-
+    :root { --gold: #d4af37; --deep-gold: #aa820a; --dark-bg: #0b0f19; --card-bg: rgba(255, 253, 248, 0.95); }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Playfair Display', Georgia, serif;
-      background-color: var(--dark-bg);
-      color: #2b2b2b;
-      overflow-x: hidden;
-    }
-
-    /* ENTRANCE SCREEN */
-    #entrance-screen {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: linear-gradient(rgba(11, 15, 25, 0.2), rgba(11, 15, 25, 0.4)),
-                  url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      padding: 60px 20px;
-      transition: opacity 1.2s ease;
-    }
-
-    .celestial-door {
-      width: 140px;
-      height: 260px;
-      border: 4px solid var(--gold);
-      border-radius: 70px 70px 0 0;
-      box-shadow: 0 0 30px rgba(212, 175, 55, 0.6), inset 0 0 20px rgba(212, 175, 55, 0.4);
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(5px);
-      cursor: pointer;
-      margin-top: auto;
-    }
-
-    .begin-btn {
-      margin-top: 30px;
-      margin-bottom: auto;
-      background: transparent;
-      border: none;
-      color: #ffffff;
-      font-family: 'Cinzel', serif;
-      font-size: 1.4rem;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      cursor: pointer;
-      text-shadow: 0 0 10px rgba(255,255,255,0.8), 0 0 20px var(--gold);
-    }
-
-    /* MAIN CONTENT */
-    #main-content {
-      opacity: 0;
-      transition: opacity 1.5s ease;
-      background: linear-gradient(to bottom, #111827, #1e293b, #0f172a);
-      color: #f8fafc;
-      min-height: 100vh;
-      padding-bottom: 100px;
-    }
-
-    .letter-container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 100px 20px 60px;
-      text-align: center;
-    }
-
-    .letter-card {
-      background: var(--card-bg);
-      color: #333;
-      padding: 50px 40px;
-      border-radius: 4px;
-      border: 8px double var(--gold);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    }
-
-    .letter-card h1 {
-      font-family: 'Cinzel', serif;
-      color: var(--deep-gold);
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-    }
-
-    .letter-text {
-      font-size: 1.2rem;
-      line-height: 1.8;
-      font-style: italic;
-      margin-bottom: 25px;
-      white-space: pre-line;
-    }
-
-    .timeline {
-      max-width: 1200px;
-      margin: 50px auto;
-      padding: 0 20px;
-    }
-
-    .section-title {
-      font-family: 'Cinzel', serif;
-      text-align: center;
-      color: var(--gold);
-      font-size: 2rem;
-      margin: 80px 0 30px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    }
-
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-      justify-content: center;
-    }
-
-    .classic-frame {
-      background: #3a2212;
-      padding: 12px;
-      border-radius: 6px;
-      box-shadow: 0 15px 25px rgba(0,0,0,0.7), inset 0 0 10px rgba(0,0,0,0.8), 0 0 0 4px var(--gold);
-      position: relative;
-    }
-
-    .inner-border {
-      border: 3px solid #e0c878;
-      padding: 6px;
-      background: #fff8eb;
-    }
-
-    .classic-frame img {
-      width: 100%;
-      height: 380px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .delete-btn {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      background: rgba(220, 38, 38, 0.9);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      font-weight: bold;
-      cursor: pointer;
-      z-index: 10;
-      display: none;
-    }
-
-    .classic-frame:hover .delete-btn {
-      display: block;
-    }
-
-    /* ADMIN PANEL */
-    #admin-section {
-      max-width: 800px;
-      margin: 100px auto 40px;
-      background: #1e293b;
-      border: 2px solid var(--gold);
-      border-radius: 8px;
-      padding: 30px;
-      color: #fff;
-    }
-
-    #admin-section h2 {
-      font-family: 'Cinzel', serif;
-      color: var(--gold);
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
+    body { font-family: 'Playfair Display', Georgia, serif; background-color: var(--dark-bg); color: #2b2b2b; overflow-x: hidden; }
+    #entrance-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(rgba(11, 15, 25, 0.2), rgba(11, 15, 25, 0.4)), url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat; z-index: 1000; display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: 60px 20px; transition: opacity 1.2s ease; }
+    .celestial-door { width: 140px; height: 260px; border: 4px solid var(--gold); border-radius: 70px 70px 0 0; box-shadow: 0 0 30px rgba(212, 175, 55, 0.6), inset 0 0 20px rgba(212, 175, 55, 0.4); background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(5px); cursor: pointer; margin-top: auto; }
+    .begin-btn { margin-top: 30px; margin-bottom: auto; background: transparent; border: none; color: #ffffff; font-family: 'Cinzel', serif; font-size: 1.4rem; letter-spacing: 4px; text-transform: uppercase; cursor: pointer; text-shadow: 0 0 10px rgba(255,255,255,0.8), 0 0 20px var(--gold); }
+    #main-content { opacity: 0; transition: opacity 1.5s ease; background: linear-gradient(to bottom, #111827, #1e293b, #0f172a); color: #f8fafc; min-height: 100vh; padding-bottom: 100px; }
+    .letter-container { max-width: 800px; margin: 0 auto; padding: 100px 20px 60px; text-align: center; }
+    .letter-card { background: var(--card-bg); color: #333; padding: 50px 40px; border-radius: 4px; border: 8px double var(--gold); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+    .letter-card h1 { font-family: 'Cinzel', serif; color: var(--deep-gold); font-size: 2.5rem; margin-bottom: 15px; }
+    .letter-text { font-size: 1.2rem; line-height: 1.8; font-style: italic; margin-bottom: 25px; white-space: pre-line; }
+    .timeline { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
+    .section-title { font-family: 'Cinzel', serif; text-align: center; color: var(--gold); font-size: 2rem; margin: 80px 0 30px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    .photo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; justify-content: center; }
+    .classic-frame { background: #3a2212; padding: 12px; border-radius: 6px; box-shadow: 0 15px 25px rgba(0,0,0,0.7), inset 0 0 10px rgba(0,0,0,0.8), 0 0 0 4px var(--gold); position: relative; }
+    .inner-border { border: 3px solid #e0c878; padding: 6px; background: #fff8eb; }
+    .classic-frame img { width: 100%; height: 380px; object-fit: cover; display: block; }
+    .delete-btn { position: absolute; top: 18px; right: 18px; background: rgba(220, 38, 38, 0.9); color: white; border: none; border-radius: 50%; width: 32px; height: 32px; font-weight: bold; cursor: pointer; z-index: 10; display: none; }
+    .classic-frame:hover .delete-btn { display: block; }
+    #admin-section { max-width: 800px; margin: 100px auto 40px; background: #1e293b; border: 2px solid var(--gold); border-radius: 8px; padding: 30px; color: #fff; }
+    #admin-section h2 { font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 20px; }
+    .form-group { margin-bottom: 15px; display: flex; flex-direction: column; gap: 5px; }
     .form-group label { font-size: 0.9rem; color: #cbd5e1; }
-    .form-group input, .form-group textarea, .form-group select {
-      padding: 10px;
-      border-radius: 4px;
-      border: 1px solid #475569;
-      background: #0f172a;
-      color: #fff;
-    }
-
-    .btn-submit {
-      background: var(--gold);
-      color: #000;
-      font-weight: bold;
-      padding: 12px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-family: 'Cinzel', serif;
-    }
-
+    .form-group input, .form-group textarea, .form-group select { padding: 10px; border-radius: 4px; border: 1px solid #475569; background: #0f172a; color: #fff; }
+    .btn-submit { background: var(--gold); color: #000; font-weight: bold; padding: 12px; border: none; border-radius: 4px; cursor: pointer; font-family: 'Cinzel', serif; }
     #admin-dashboard-controls { display: none; }
   </style>
 </head>
 <body>
 
-  <!-- ENTRANCE SCREEN -->
   <div id="entrance-screen">
-    <div style="text-align: center; color: #fff; font-family: 'Cinzel', serif; font-size: 1.5rem; letter-spacing: 3px;">
-      Welcome To Our Story
-    </div>
+    <div style="text-align: center; color: #fff; font-family: 'Cinzel', serif; font-size: 1.5rem; letter-spacing: 3px;">Welcome To Our Story</div>
     <div class="celestial-door" onclick="enterSite()"></div>
     <button class="begin-btn" onclick="enterSite()">Click To Begin</button>
   </div>
 
-  <!-- MAIN WEBSITE -->
   <div id="main-content">
-    
     <div class="letter-container">
       <div class="letter-card">
         <h1 id="display-title">OUR WEDDING INVITATION</h1>
@@ -237,40 +52,20 @@
       </div>
     </div>
 
-    <!-- TIMELINE -->
     <div class="timeline">
-      <div class="section-title">First Date</div>
-      <div class="photo-grid" id="grid-first_date"></div>
-
-      <div class="section-title">1st Anniversary</div>
-      <div class="photo-grid" id="grid-1st_ani"></div>
-
-      <div class="section-title">2nd Anniversary</div>
-      <div class="photo-grid" id="grid-2nd_ani"></div>
-
-      <div class="section-title">3rd Anniversary</div>
-      <div class="photo-grid" id="grid-3rd_ani"></div>
-
-      <div class="section-title">4th Anniversary</div>
-      <div class="photo-grid" id="grid-4th_ani"></div>
-
-      <div class="section-title">The Wedding</div>
-      <div class="photo-grid" id="grid-wedding"></div>
+      <div class="section-title">First Date</div><div class="photo-grid" id="grid-first_date"></div>
+      <div class="section-title">1st Anniversary</div><div class="photo-grid" id="grid-1st_ani"></div>
+      <div class="section-title">2nd Anniversary</div><div class="photo-grid" id="grid-2nd_ani"></div>
+      <div class="section-title">3rd Anniversary</div><div class="photo-grid" id="grid-3rd_ani"></div>
+      <div class="section-title">4th Anniversary</div><div class="photo-grid" id="grid-4th_ani"></div>
+      <div class="section-title">The Wedding</div><div class="photo-grid" id="grid-wedding"></div>
     </div>
 
-    <!-- ADMIN PANEL -->
     <div id="admin-section">
       <h2>Admin Control Panel</h2>
-      
       <form id="admin-login-form">
-        <div class="form-group">
-          <label>Username</label>
-          <input type="text" id="admin-username" required />
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="admin-password" required />
-        </div>
+        <div class="form-group"><label>Username</label><input type="text" id="admin-username" required /></div>
+        <div class="form-group"><label>Password</label><input type="password" id="admin-password" required /></div>
         <button type="submit" class="btn-submit">Login to Dashboard</button>
         <p id="login-error" style="color: #ef4444; margin-top: 10px; display: none;">Invalid credentials!</p>
       </form>
@@ -278,27 +73,13 @@
       <div id="admin-dashboard-controls">
         <form id="details-form" style="margin-bottom: 30px;">
           <h3>Edit Invitation Letter & Details</h3>
-          <div class="form-group">
-            <label>Heading / Title</label>
-            <input type="text" id="admin-title" required />
-          </div>
-          <div class="form-group">
-            <label>Wedding Letter Text</label>
-            <textarea id="admin-letter" rows="4" required></textarea>
-          </div>
-          <div class="form-group">
-            <label>Date & Time</label>
-            <input type="text" id="admin-date" required />
-          </div>
-          <div class="form-group">
-            <label>Venue Details</label>
-            <input type="text" id="admin-venue" required />
-          </div>
+          <div class="form-group"><label>Heading / Title</label><input type="text" id="admin-title" required /></div>
+          <div class="form-group"><label>Wedding Letter Text</label><textarea id="admin-letter" rows="4" required></textarea></div>
+          <div class="form-group"><label>Date & Time</label><input type="text" id="admin-date" required /></div>
+          <div class="form-group"><label>Venue Details</label><input type="text" id="admin-venue" required /></div>
           <button type="submit" class="btn-submit" id="save-details-btn">Save Invitation Text Live</button>
         </form>
-
         <hr style="border-color: #334155; margin: 30px 0;">
-
         <form id="photo-form">
           <h3>Cloud Photo Uploader</h3>
           <div class="form-group">
@@ -319,14 +100,13 @@
           <button type="submit" class="btn-submit" id="upload-btn">Upload Photos Live</button>
         </form>
       </div>
-
     </div>
-
   </div>
 
   <script>
     const IMGBB_API_KEY = "c1ffa015b1f63ba8be938ca1a5c97aa3";
     const JSONBIN_MASTER_KEY = "$2a$10$qRomabBwMWgA0Jal13nCA.tr68s0TwVjSaDYU6s9eoWuZVg/FPehC";
+    const SHARED_BIN_ID = "65e8a1b2dc746540188d3e91"; // Shared endpoint identifier
 
     let globalStore = {
       details: {
@@ -352,7 +132,6 @@
       e.preventDefault();
       const user = document.getElementById('admin-username').value.trim();
       const pass = document.getElementById('admin-password').value.trim();
-      
       if (user === 'shogun' && pass === '182002') {
         isAdminLoggedIn = true;
         document.getElementById('admin-login-form').style.display = 'none';
@@ -367,16 +146,14 @@
       e.preventDefault();
       const btn = document.getElementById('save-details-btn');
       btn.textContent = "Saving...";
-
       globalStore.details = {
         title: document.getElementById('admin-title').value,
         letter: document.getElementById('admin-letter').value,
         date: document.getElementById('admin-date').value,
         venue: document.getElementById('admin-venue').value
       };
-
       await syncToCloud();
-      alert('Invitation letter updated live for all visitors!');
+      alert('Updated live!');
       btn.textContent = "Save Invitation Text Live";
       renderData();
     });
@@ -387,30 +164,20 @@
       const fileInput = document.getElementById('admin-photo-file');
       const files = Array.from(fileInput.files);
       const btn = document.getElementById('upload-btn');
-
       btn.textContent = "Uploading Live...";
       btn.disabled = true;
 
       for (let file of files) {
         let formData = new FormData();
         formData.append("image", file);
-
         try {
-          let res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
-            method: "POST",
-            body: formData
-          });
+          let res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: "POST", body: formData });
           let data = await res.json();
-          if (data.success) {
-            globalStore.photos.push({ id: Date.now() + Math.random(), category, url: data.data.url });
-          }
-        } catch (err) {
-          console.error("Upload error:", err);
-        }
+          if (data.success) { globalStore.photos.push({ id: Date.now() + Math.random(), category, url: data.data.url }); }
+        } catch (err) { console.error("Upload error:", err); }
       }
-
       await syncToCloud();
-      alert("Photos uploaded and synced globally across all devices!");
+      alert("Photos uploaded successfully!");
       btn.textContent = "Upload Photos Live";
       btn.disabled = false;
       fileInput.value = '';
@@ -425,54 +192,22 @@
 
     async function syncToCloud() {
       try {
-        let binId = localStorage.getItem('wedding_bin_id');
-        let url = binId ? `https://api.jsonbin.io/v3/b/${binId}` : 'https://api.jsonbin.io/v3/b';
-        let method = binId ? 'PUT' : 'POST';
-
-        let res = await fetch(url, {
-          method: method,
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Master-Key': JSONBIN_MASTER_KEY,
-            'X-Bin-Name': 'wedding_data',
-            'X-Bin-Private': 'false'
-          },
+        await fetch(`https://api.jsonbin.io/v3/b/${SHARED_BIN_ID}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_MASTER_KEY },
           body: JSON.stringify(globalStore)
         });
-
-        let data = await res.json();
-        if (data.metadata && data.metadata.id) {
-          localStorage.setItem('wedding_bin_id', data.metadata.id);
-        }
-      } catch (err) {
-        console.error("Cloud sync error:", err);
-      }
+      } catch (err) { console.error("Cloud sync error:", err); }
     }
 
     async function loadGlobalData() {
       try {
-        let res = await fetch('https://api.jsonbin.io/v3/b', {
+        let res = await fetch(`https://api.jsonbin.io/v3/b/${SHARED_BIN_ID}/latest`, {
           headers: { 'X-Master-Key': JSONBIN_MASTER_KEY }
         });
-        let listData = await res.json();
-        
-        if (Array.isArray(listData) && listData.length > 0) {
-          let lastBin = listData[0].record; 
-          let binId = lastBin;
-          if (typeof lastBin === 'object' && lastBin.id) binId = lastBin.id;
-
-          let fetchRes = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
-            headers: { 'X-Master-Key': JSONBIN_MASTER_KEY }
-          });
-          let recordData = await fetchRes.json();
-          if (recordData.record) {
-            globalStore = recordData.record;
-            localStorage.setItem('wedding_bin_id', binId);
-          }
-        }
-      } catch(e) {
-        console.error("Load error:", e);
-      }
+        let data = await res.json();
+        if (data.record) globalStore = data.record;
+      } catch(e) { console.error("Load error:", e); }
       renderData();
     }
 
@@ -497,13 +232,8 @@
           if (grid) {
             const frame = document.createElement('div');
             frame.className = 'classic-frame';
-            
             let deleteBtn = isAdminLoggedIn ? `<button class="delete-btn" onclick="deletePhoto(${photo.id})">✕</button>` : '';
-
-            frame.innerHTML = `
-              ${deleteBtn}
-              <div class="inner-border"><img src="${photo.url}"></div>
-            `;
+            frame.innerHTML = `${deleteBtn}<div class="inner-border"><img src="${photo.url}"></div>`;
             grid.appendChild(frame);
           }
         });
