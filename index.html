@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Our Journey</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
   <style>
     :root {
@@ -261,7 +260,7 @@
 
     <!-- ADMIN PANEL -->
     <div id="admin-section">
-      <h2>Admin Control Panel</h2>
+      `<h2>Admin Control Panel</h2>`
       
       <form id="admin-login-form">
         <div class="form-group">
@@ -327,15 +326,7 @@
 
   <script>
     const IMGBB_API_KEY = "c1ffa015b1f63ba8be938ca1a5c97aa3";
-    const SUPABASE_URL = "https://vrtlvjxkcbsrpinlrgvr.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_NKnRMXIQUwu5PdXBcg89Qg_mSdZu";
-
-    let supabaseClient;
-    try {
-      supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    } catch(err) {
-      console.log("Supabase initialization:", err);
-    }
+    const JSONBIN_MASTER_KEY = "$2a$10$qRomabBwMWgA0Jal13nCA.tr68s0TwVjSaDYU6s9eoWuZVg/FPehC";
 
     let globalStore = {
       details: {
@@ -372,7 +363,6 @@
       }
     });
 
-    // Save Details Live
     document.getElementById('details-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = document.getElementById('save-details-btn');
@@ -386,12 +376,11 @@
       };
 
       await syncToCloud();
-      alert('Invitation letter and details updated!');
+      alert('Invitation letter and details updated globally!');
       btn.textContent = "Save Invitation Text Live";
       renderData();
     });
 
-    // Upload Photos Live
     document.getElementById('photo-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const category = document.getElementById('admin-category').value;
@@ -421,7 +410,7 @@
       }
 
       await syncToCloud();
-      alert("Photos successfully uploaded live to the cloud!");
+      alert("Photos uploaded and synced globally!");
       btn.textContent = "Upload Photos Live";
       btn.disabled = false;
       fileInput.value = '';
@@ -435,29 +424,49 @@
     }
 
     async function syncToCloud() {
-      localStorage.setItem('wedding_global_store', JSON.stringify(globalStore));
-      if (supabaseClient) {
-        try {
-          await supabaseClient.from('wedding_data').upsert({ id: 'store', data: globalStore });
-        } catch(e) { console.log(e); }
+      try {
+        let createdBin = localStorage.getItem('jsonbin_id');
+        let url = createdBin ? `https://api.jsonbin.io/v3/b/${createdBin}` : 'https://api.jsonbin.io/v3/b';
+        let method = createdBin ? 'PUT' : 'POST';
+
+        let res = await fetch(url, {
+          method: method,
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Master-Key': JSONBIN_MASTER_KEY,
+            'X-Bin-Name': 'wedding_data'
+          },
+          body: JSON.stringify(globalStore)
+        });
+
+        let data = await res.json();
+        if (!createdBin && data.metadata && data.metadata.id) {
+          localStorage.setItem('jsonbin_id', data.metadata.id);
+        }
+      } catch (err) {
+        console.error("Cloud sync error:", err);
       }
     }
 
     async function loadGlobalData() {
-      const local = localStorage.getItem('wedding_global_store');
-      if (local) {
-        globalStore = JSON.parse(local);
-      }
-      if (supabaseClient) {
+      let createdBin = localStorage.getItem('jsonbin_id');
+      if (createdBin) {
         try {
-          const { data } = await supabaseClient.from('wedding_data').select('data').eq('id', 'store').single();
-          if (data && data.data) {
-            globalStore = data.data;
+          let res = await fetch(`https://api.jsonbin.io/v3/b/${createdBin}/latest`, {
+            headers: { 'X-Master-Key': JSONBIN_MASTER_KEY }
+          });
+          let data = await res.json();
+          if (data.record) {
+            globalStore = data.record;
           }
-        } catch(e) { console.log(e); }
+        } catch(e) {
+          console.error("Load error:", e);
+        }
       }
       renderData();
     }
+
+    loadGlobalData();
 
     function renderData() {
       document.getElementById('display-title').textContent = globalStore.details.title;
@@ -490,8 +499,6 @@
         });
       }
     }
-
-    loadGlobalData();
   </script>
 </body>
 </html>
