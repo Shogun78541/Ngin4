@@ -260,7 +260,7 @@
 
     <!-- ADMIN PANEL -->
     <div id="admin-section">
-      `<h2>Admin Control Panel</h2>`
+      <h2>Admin Control Panel</h2>
       
       <form id="admin-login-form">
         <div class="form-group">
@@ -376,7 +376,7 @@
       };
 
       await syncToCloud();
-      alert('Invitation letter and details updated globally!');
+      alert('Invitation letter updated live for all visitors!');
       btn.textContent = "Save Invitation Text Live";
       renderData();
     });
@@ -410,7 +410,7 @@
       }
 
       await syncToCloud();
-      alert("Photos uploaded and synced globally!");
+      alert("Photos uploaded and synced globally across all devices!");
       btn.textContent = "Upload Photos Live";
       btn.disabled = false;
       fileInput.value = '';
@@ -425,23 +425,24 @@
 
     async function syncToCloud() {
       try {
-        let createdBin = localStorage.getItem('jsonbin_id');
-        let url = createdBin ? `https://api.jsonbin.io/v3/b/${createdBin}` : 'https://api.jsonbin.io/v3/b';
-        let method = createdBin ? 'PUT' : 'POST';
+        let binId = localStorage.getItem('wedding_bin_id');
+        let url = binId ? `https://api.jsonbin.io/v3/b/${binId}` : 'https://api.jsonbin.io/v3/b';
+        let method = binId ? 'PUT' : 'POST';
 
         let res = await fetch(url, {
           method: method,
           headers: {
             'Content-Type': 'application/json',
             'X-Master-Key': JSONBIN_MASTER_KEY,
-            'X-Bin-Name': 'wedding_data'
+            'X-Bin-Name': 'wedding_data',
+            'X-Bin-Private': 'false'
           },
           body: JSON.stringify(globalStore)
         });
 
         let data = await res.json();
-        if (!createdBin && data.metadata && data.metadata.id) {
-          localStorage.setItem('jsonbin_id', data.metadata.id);
+        if (data.metadata && data.metadata.id) {
+          localStorage.setItem('wedding_bin_id', data.metadata.id);
         }
       } catch (err) {
         console.error("Cloud sync error:", err);
@@ -449,19 +450,28 @@
     }
 
     async function loadGlobalData() {
-      let createdBin = localStorage.getItem('jsonbin_id');
-      if (createdBin) {
-        try {
-          let res = await fetch(`https://api.jsonbin.io/v3/b/${createdBin}/latest`, {
+      try {
+        let res = await fetch('https://api.jsonbin.io/v3/b', {
+          headers: { 'X-Master-Key': JSONBIN_MASTER_KEY }
+        });
+        let listData = await res.json();
+        
+        if (Array.isArray(listData) && listData.length > 0) {
+          let lastBin = listData[0].record; 
+          let binId = lastBin;
+          if (typeof lastBin === 'object' && lastBin.id) binId = lastBin.id;
+
+          let fetchRes = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
             headers: { 'X-Master-Key': JSONBIN_MASTER_KEY }
           });
-          let data = await res.json();
-          if (data.record) {
-            globalStore = data.record;
+          let recordData = await fetchRes.json();
+          if (recordData.record) {
+            globalStore = recordData.record;
+            localStorage.setItem('wedding_bin_id', binId);
           }
-        } catch(e) {
-          console.error("Load error:", e);
         }
+      } catch(e) {
+        console.error("Load error:", e);
       }
       renderData();
     }
