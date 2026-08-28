@@ -4,138 +4,623 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Our Journey</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
   <style>
-    :root { --gold: #d4af37; --deep-gold: #aa820a; --dark-bg: #0b0f19; --card-bg: rgba(255, 253, 248, 0.95); }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Playfair Display', Georgia, serif; background-color: var(--dark-bg); color: #2b2b2b; overflow-x: hidden; }
-    #entrance-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(rgba(11, 15, 25, 0.2), rgba(11, 15, 25, 0.4)), url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat; z-index: 1000; display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: 60px 20px; transition: opacity 1.2s ease; }
-    .celestial-door { width: 140px; height: 260px; border: 4px solid var(--gold); border-radius: 70px 70px 0 0; box-shadow: 0 0 30px rgba(212, 175, 55, 0.6), inset 0 0 20px rgba(212, 175, 55, 0.4); background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(5px); cursor: pointer; margin-top: auto; }
-    .begin-btn { margin-top: 30px; margin-bottom: auto; background: transparent; border: none; color: #ffffff; font-family: 'Cinzel', serif; font-size: 1.4rem; letter-spacing: 4px; text-transform: uppercase; cursor: pointer; text-shadow: 0 0 10px rgba(255,255,255,0.8), 0 0 20px var(--gold); }
-    #main-content { opacity: 0; transition: opacity 1.5s ease; background: linear-gradient(to bottom, #111827, #1e293b, #0f172a); color: #f8fafc; min-height: 100vh; padding-bottom: 100px; }
-    .letter-container { max-width: 800px; margin: 0 auto; padding: 100px 20px 60px; text-align: center; }
-    .letter-card { background: var(--card-bg); color: #333; padding: 50px 40px; border-radius: 4px; border: 8px double var(--gold); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-    .letter-card h1 { font-family: 'Cinzel', serif; color: var(--deep-gold); font-size: 2.5rem; margin-bottom: 15px; }
-    .letter-text { font-size: 1.2rem; line-height: 1.8; font-style: italic; margin-bottom: 25px; white-space: pre-line; }
-    .timeline { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
-    .section-title { font-family: 'Cinzel', serif; text-align: center; color: var(--gold); font-size: 2rem; margin: 80px 0 30px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-    .photo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; justify-content: center; }
-    .classic-frame { background: #3a2212; padding: 12px; border-radius: 6px; box-shadow: 0 15px 25px rgba(0,0,0,0.7), inset 0 0 10px rgba(0,0,0,0.8), 0 0 0 4px var(--gold); position: relative; }
-    .inner-border { border: 3px solid #e0c878; padding: 6px; background: #fff8eb; }
-    .classic-frame img { width: 100%; height: 380px; object-fit: cover; display: block; }
-    .delete-btn { position: absolute; top: 18px; right: 18px; background: rgba(220, 38, 38, 0.9); color: white; border: none; border-radius: 50%; width: 32px; height: 32px; font-weight: bold; cursor: pointer; z-index: 10; display: none; }
-    .classic-frame:hover .delete-btn { display: block; }
-    #admin-section { max-width: 800px; margin: 100px auto 40px; background: #1e293b; border: 2px solid var(--gold); border-radius: 8px; padding: 30px; color: #fff; }
-    #admin-section h2 { font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 20px; }
-    .form-group { margin-bottom: 15px; display: flex; flex-direction: column; gap: 5px; }
-    .form-group label { font-size: 0.9rem; color: #cbd5e1; }
-    .form-group input, .form-group textarea, .form-group select { padding: 10px; border-radius: 4px; border: 1px solid #475569; background: #0f172a; color: #fff; }
-    .btn-submit { background: var(--gold); color: #000; font-weight: bold; padding: 12px; border: none; border-radius: 4px; cursor: pointer; font-family: 'Cinzel', serif; }
-    #admin-dashboard-controls { display: none; }
+    :root {
+      --gold: #d4af37;
+      --deep-gold: #aa820a;
+      --dark-bg: #0b0f19;
+      --card-bg: rgba(255, 253, 248, 0.95);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Playfair Display', Georgia, serif;
+      background-color: var(--dark-bg);
+      color: #2b2b2b;
+      overflow-x: hidden;
+    }
+
+    #entrance-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background:
+        linear-gradient(
+          rgba(11, 15, 25, 0.2),
+          rgba(11, 15, 25, 0.4)
+        ),
+        url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1920&auto=format&fit=crop')
+        center/cover no-repeat;
+
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 60px 20px;
+      transition: opacity 1.2s ease;
+    }
+
+    .celestial-door {
+      width: 140px;
+      height: 260px;
+      border: 4px solid var(--gold);
+      border-radius: 70px 70px 0 0;
+
+      box-shadow:
+        0 0 30px rgba(212, 175, 55, 0.6),
+        inset 0 0 20px rgba(212, 175, 55, 0.4);
+
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(5px);
+      cursor: pointer;
+      margin-top: auto;
+    }
+
+    .begin-btn {
+      margin-top: 30px;
+      margin-bottom: auto;
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-family: 'Cinzel', serif;
+      font-size: 1.4rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      cursor: pointer;
+
+      text-shadow:
+        0 0 10px rgba(255,255,255,0.8),
+        0 0 20px var(--gold);
+    }
+
+    #main-content {
+      opacity: 0;
+      transition: opacity 1.5s ease;
+
+      background:
+        linear-gradient(
+          to bottom,
+          #111827,
+          #1e293b,
+          #0f172a
+        );
+
+      color: #f8fafc;
+      min-height: 100vh;
+      padding-bottom: 100px;
+    }
+
+    .letter-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 100px 20px 60px;
+      text-align: center;
+    }
+
+    .letter-card {
+      background: var(--card-bg);
+      color: #333;
+      padding: 50px 40px;
+      border-radius: 4px;
+      border: 8px double var(--gold);
+
+      box-shadow:
+        0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    .letter-card h1 {
+      font-family: 'Cinzel', serif;
+      color: var(--deep-gold);
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    .letter-text {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      font-style: italic;
+      margin-bottom: 25px;
+      white-space: pre-line;
+    }
+
+    .timeline {
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      font-family: 'Cinzel', serif;
+      text-align: center;
+      color: var(--gold);
+      font-size: 2rem;
+      margin: 80px 0 30px;
+
+      text-shadow:
+        0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(300px, 1fr));
+
+      gap: 30px;
+      justify-content: center;
+    }
+
+    .classic-frame {
+      background: #3a2212;
+      padding: 12px;
+      border-radius: 6px;
+
+      box-shadow:
+        0 15px 25px rgba(0,0,0,0.7),
+        inset 0 0 10px rgba(0,0,0,0.8),
+        0 0 0 4px var(--gold);
+
+      position: relative;
+    }
+
+    .inner-border {
+      border: 3px solid #e0c878;
+      padding: 6px;
+      background: #fff8eb;
+    }
+
+    .classic-frame img {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .delete-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+
+      background: rgba(220, 38, 38, 0.9);
+      color: white;
+
+      border: none;
+      border-radius: 50%;
+
+      width: 32px;
+      height: 32px;
+
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 10;
+
+      display: none;
+    }
+
+    .classic-frame:hover .delete-btn {
+      display: block;
+    }
+
+    #admin-section {
+      max-width: 800px;
+      margin: 100px auto 40px;
+
+      background: #1e293b;
+      border: 2px solid var(--gold);
+      border-radius: 8px;
+
+      padding: 30px;
+      color: #fff;
+    }
+
+    #admin-section h2 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-group label {
+      font-size: 0.9rem;
+      color: #cbd5e1;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      padding: 10px;
+      border-radius: 4px;
+
+      border: 1px solid #475569;
+
+      background: #0f172a;
+      color: #fff;
+    }
+
+    .btn-submit {
+      background: var(--gold);
+      color: #000;
+
+      font-weight: bold;
+      padding: 12px;
+
+      border: none;
+      border-radius: 4px;
+
+      cursor: pointer;
+
+      font-family: 'Cinzel', serif;
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    #admin-dashboard-controls {
+      display: none;
+    }
   </style>
 </head>
 
+
 <body>
 
+
+  <!-- =====================================================
+       ENTRANCE SCREEN
+       ===================================================== -->
+
   <div id="entrance-screen">
-    <div style="text-align: center; color: #fff; font-family: 'Cinzel', serif; font-size: 1.5rem; letter-spacing: 3px;">Welcome To Our Story</div>
-    <div class="celestial-door" onclick="enterSite()"></div>
-    <button class="begin-btn" onclick="enterSite()">Click To Begin</button>
+
+    <div
+      style="
+        text-align: center;
+        color: #fff;
+        font-family: 'Cinzel', serif;
+        font-size: 1.5rem;
+        letter-spacing: 3px;
+      "
+    >
+      Welcome To Our Story
+    </div>
+
+    <div
+      class="celestial-door"
+      onclick="enterSite()"
+    ></div>
+
+    <button
+      class="begin-btn"
+      onclick="enterSite()"
+    >
+      Click To Begin
+    </button>
+
   </div>
+
+
+  <!-- =====================================================
+       MAIN WEBSITE
+       ===================================================== -->
 
   <div id="main-content">
 
+
+    <!-- LETTER -->
     <div class="letter-container">
+
       <div class="letter-card">
-        <h1 id="display-title">OUR WEDDING INVITATION</h1>
-        <p class="letter-text" id="display-letter">Welcome to our journey of love! We invite you to explore our story through the years as we step into our forever.</p>
-        <p id="display-date" style="font-weight: bold; color: var(--deep-gold);">October 24, 2026</p>
-        <p id="display-venue" style="margin-top: 10px; font-size: 0.95rem; color: #555;">Ceremony: St. Grace Church at 4:00 PM | Reception: The Grand Ballroom at 6:00 PM</p>
+
+        <h1 id="display-title">
+          OUR WEDDING INVITATION
+        </h1>
+
+        <p
+          class="letter-text"
+          id="display-letter"
+        >
+          Welcome to our journey of love! We invite you to explore our story through the years as we step into our forever.
+        </p>
+
+        <p
+          id="display-date"
+          style="
+            font-weight: bold;
+            color: var(--deep-gold);
+          "
+        >
+          October 24, 2026
+        </p>
+
+        <p
+          id="display-venue"
+          style="
+            margin-top: 10px;
+            font-size: 0.95rem;
+            color: #555;
+          "
+        >
+          Ceremony: St. Grace Church at 4:00 PM |
+          Reception: The Grand Ballroom at 6:00 PM
+        </p>
+
       </div>
+
     </div>
 
+
+    <!-- =====================================================
+         PHOTO TIMELINE
+         ===================================================== -->
+
     <div class="timeline">
-      <div class="section-title">First Date</div><div class="photo-grid" id="grid-first_date"></div>
-      <div class="section-title">1st Anniversary</div><div class="photo-grid" id="grid-1st_ani"></div>
-      <div class="section-title">2nd Anniversary</div><div class="photo-grid" id="grid-2nd_ani"></div>
-      <div class="section-title">3rd Anniversary</div><div class="photo-grid" id="grid-3rd_ani"></div>
-      <div class="section-title">4th Anniversary</div><div class="photo-grid" id="grid-4th_ani"></div>
-      <div class="section-title">The Wedding</div><div class="photo-grid" id="grid-wedding"></div>
+
+      <div class="section-title">
+        First Date
+      </div>
+
+      <div
+        class="photo-grid"
+        id="grid-first_date"
+      ></div>
+
+
+      <div class="section-title">
+        1st Anniversary
+      </div>
+
+      <div
+        class="photo-grid"
+        id="grid-1st_ani"
+      ></div>
+
+
+      <div class="section-title">
+        2nd Anniversary
+      </div>
+
+      <div
+        class="photo-grid"
+        id="grid-2nd_ani"
+      ></div>
+
+
+      <div class="section-title">
+        3rd Anniversary
+      </div>
+
+      <div
+        class="photo-grid"
+        id="grid-3rd_ani"
+      ></div>
+
+
+      <div class="section-title">
+        4th Anniversary
+      </div>
+
+      <div
+        class="photo-grid"
+        id="grid-4th_ani"
+      ></div>
+
+
+      <div class="section-title">
+        The Wedding
+      </div>
+
+      <div
+        class="photo-grid"
+        id="grid-wedding"
+      ></div>
+
     </div>
+
+
+    <!-- =====================================================
+         ADMIN
+         ===================================================== -->
 
     <div id="admin-section">
 
-      <h2>Admin Control Panel</h2>
+      <h2>
+        Admin Control Panel
+      </h2>
+
+
+      <!-- LOGIN -->
 
       <form id="admin-login-form">
 
         <div class="form-group">
-          <label>Username</label>
-          <input type="text" id="admin-username" required />
+
+          <label>
+            Username
+          </label>
+
+          <input
+            type="text"
+            id="admin-username"
+            required
+          />
+
         </div>
+
 
         <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="admin-password" required />
+
+          <label>
+            Password
+          </label>
+
+          <input
+            type="password"
+            id="admin-password"
+            required
+          />
+
         </div>
 
-        <button type="submit" class="btn-submit">
+
+        <button
+          type="submit"
+          class="btn-submit"
+        >
           Login to Dashboard
         </button>
 
-        <p id="login-error" style="color: #ef4444; margin-top: 10px; display: none;">
+
+        <p
+          id="login-error"
+          style="
+            color: #ef4444;
+            margin-top: 10px;
+            display: none;
+          "
+        >
           Invalid credentials!
         </p>
 
       </form>
 
 
+      <!-- =====================================================
+           ADMIN DASHBOARD
+           ===================================================== -->
+
       <div id="admin-dashboard-controls">
 
-        <form id="details-form" style="margin-bottom: 30px;">
 
-          <h3>Edit Invitation Letter & Details</h3>
+        <!-- DETAILS -->
 
-          <div class="form-group">
-            <label>Heading / Title</label>
-            <input type="text" id="admin-title" required />
-          </div>
+        <form
+          id="details-form"
+          style="margin-bottom: 30px;"
+        >
 
-          <div class="form-group">
-            <label>Wedding Letter Text</label>
-            <textarea id="admin-letter" rows="4" required></textarea>
-          </div>
+          <h3>
+            Edit Invitation Letter & Details
+          </h3>
 
-          <div class="form-group">
-            <label>Date & Time</label>
-            <input type="text" id="admin-date" required />
-          </div>
 
           <div class="form-group">
-            <label>Venue Details</label>
-            <input type="text" id="admin-venue" required />
+
+            <label>
+              Heading / Title
+            </label>
+
+            <input
+              type="text"
+              id="admin-title"
+              required
+            />
+
           </div>
 
-          <button type="submit" class="btn-submit" id="save-details-btn">
+
+          <div class="form-group">
+
+            <label>
+              Wedding Letter Text
+            </label>
+
+            <textarea
+              id="admin-letter"
+              rows="4"
+              required
+            ></textarea>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Date & Time
+            </label>
+
+            <input
+              type="text"
+              id="admin-date"
+              required
+            />
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Venue Details
+            </label>
+
+            <input
+              type="text"
+              id="admin-venue"
+              required
+            />
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="btn-submit"
+            id="save-details-btn"
+          >
             Save Invitation Text Live
           </button>
 
         </form>
 
 
-        <hr style="border-color: #334155; margin: 30px 0;">
+        <hr
+          style="
+            border-color: #334155;
+            margin: 30px 0;
+          "
+        />
 
+
+        <!-- =====================================================
+             PHOTO UPLOADER
+             ===================================================== -->
 
         <form id="photo-form">
 
-          <h3>Cloud Photo Uploader</h3>
+          <h3>
+            Cloud Photo Uploader
+          </h3>
+
 
           <div class="form-group">
 
-            <label>Select Category</label>
+            <label>
+              Select Category
+            </label>
 
-            <select id="admin-category" required>
+            <select
+              id="admin-category"
+              required
+            >
 
               <option value="first_date">
                 First Date
@@ -168,7 +653,9 @@
 
           <div class="form-group">
 
-            <label>Select Photos from Device (Multiple allowed)</label>
+            <label>
+              Select Photos from Device (Multiple allowed)
+            </label>
 
             <input
               type="file"
@@ -191,43 +678,60 @@
 
         </form>
 
+
       </div>
 
     </div>
 
+
   </div>
 
 
+  <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
+
   <script>
 
+
     /* =====================================================
-       YOUR SUPABASE CONNECTION
+       SUPABASE
        ===================================================== */
 
     const SUPABASE_URL =
       "https://vrtlvjxkcbsrpinlrgvr.supabase.co";
 
+
     const SUPABASE_KEY =
       "sb_publishable_NKnrMXIQUwu5PdXBcg89Qg_mSdZufFb";
 
 
+    /*
+      IMPORTANT:
+
+      We use ONLY the apikey header.
+
+      Do NOT add:
+      Authorization: Bearer ...
+
+      because this is a new sb_publishable_ key.
+    */
+
+    const SUPABASE_HEADERS = {
+
+      "apikey": SUPABASE_KEY,
+
+      "Content-Type": "application/json"
+
+    };
+
+
     /* =====================================================
-       YOUR EXISTING IMGBB PHOTO UPLOAD
+       IMGBB
        ===================================================== */
 
     const IMGBB_API_KEY =
       "c1ffa015b1f63ba8be938ca1a5c97aa3";
-
-
-    /* =====================================================
-       SUPABASE REST API
-       ===================================================== */
-
-    const SUPABASE_HEADERS = {
-      "apikey": SUPABASE_KEY,
-      "Authorization": "Bearer " + SUPABASE_KEY,
-      "Content-Type": "application/json"
-    };
 
 
     /* =====================================================
@@ -238,7 +742,8 @@
 
       details: {
 
-        title: "OUR WEDDING INVITATION",
+        title:
+          "OUR WEDDING INVITATION",
 
         letter:
           "Welcome to our journey of love! We invite you to explore our story through the years as we step into our forever.",
@@ -260,24 +765,26 @@
 
 
     /* =====================================================
-       ENTER WEBSITE
+       ENTER SITE
        ===================================================== */
 
     function enterSite() {
 
       document.getElementById(
-        'entrance-screen'
-      ).style.opacity = '0';
+        "entrance-screen"
+      ).style.opacity = "0";
+
 
       setTimeout(() => {
 
         document.getElementById(
-          'entrance-screen'
-        ).style.display = 'none';
+          "entrance-screen"
+        ).style.display = "none";
+
 
         document.getElementById(
-          'main-content'
-        ).style.opacity = '1';
+          "main-content"
+        ).style.opacity = "1";
 
       }, 1200);
 
@@ -289,50 +796,56 @@
        ===================================================== */
 
     document
-      .getElementById('admin-login-form')
-      .addEventListener('submit', (e) => {
+      .getElementById("admin-login-form")
+      .addEventListener("submit", function(e) {
 
         e.preventDefault();
 
+
         const user =
           document
-            .getElementById('admin-username')
+            .getElementById("admin-username")
             .value
             .trim();
 
+
         const pass =
           document
-            .getElementById('admin-password')
+            .getElementById("admin-password")
             .value
             .trim();
 
 
         if (
-          user === 'shogun' &&
-          pass === '182002'
+          user === "shogun" &&
+          pass === "182002"
         ) {
 
           isAdminLoggedIn = true;
 
-          document.getElementById(
-            'admin-login-form'
-          ).style.display = 'none';
 
           document.getElementById(
-            'admin-dashboard-controls'
-          ).style.display = 'block';
+            "admin-login-form"
+          ).style.display = "none";
+
 
           document.getElementById(
-            'login-error'
-          ).style.display = 'none';
+            "admin-dashboard-controls"
+          ).style.display = "block";
+
+
+          document.getElementById(
+            "login-error"
+          ).style.display = "none";
+
 
           renderData();
 
         } else {
 
           document.getElementById(
-            'login-error'
-          ).style.display = 'block';
+            "login-error"
+          ).style.display = "block";
 
         }
 
@@ -340,19 +853,21 @@
 
 
     /* =====================================================
-       SAVE WEDDING DETAILS TO SUPABASE
+       SAVE WEDDING DETAILS
        ===================================================== */
 
     document
-      .getElementById('details-form')
-      .addEventListener('submit', async (e) => {
+      .getElementById("details-form")
+      .addEventListener("submit", async function(e) {
 
         e.preventDefault();
 
+
         const btn =
           document.getElementById(
-            'save-details-btn'
+            "save-details-btn"
           );
+
 
         btn.textContent =
           "Saving...";
@@ -364,22 +879,22 @@
 
           title:
             document
-              .getElementById('admin-title')
+              .getElementById("admin-title")
               .value,
 
           letter:
             document
-              .getElementById('admin-letter')
+              .getElementById("admin-letter")
               .value,
 
           date:
             document
-              .getElementById('admin-date')
+              .getElementById("admin-date")
               .value,
 
           venue:
             document
-              .getElementById('admin-venue')
+              .getElementById("admin-venue")
               .value
 
         };
@@ -387,57 +902,91 @@
 
         try {
 
+
           const response =
             await fetch(
+
               SUPABASE_URL +
               "/rest/v1/wedding_details?id=eq.1",
+
               {
 
                 method: "PATCH",
 
                 headers: {
+
                   ...SUPABASE_HEADERS,
-                  "Prefer": "return=representation"
+
+                  "Prefer":
+                    "return=representation"
+
                 },
 
-                body: JSON.stringify({
+                body:
+                  JSON.stringify({
 
-                  title: newDetails.title,
+                    title:
+                      newDetails.title,
 
-                  wedding_letter:
-                    newDetails.letter,
+                    wedding_letter:
+                      newDetails.letter,
 
-                  wedding_date:
-                    newDetails.date,
+                    wedding_date:
+                      newDetails.date,
 
-                  venue_details:
-                    newDetails.venue
+                    venue_details:
+                      newDetails.venue
 
-                })
+                  })
 
               }
+
             );
 
 
-          const result =
-            await response.json();
+          const responseText =
+            await response.text();
+
+
+          let result = null;
+
+
+          try {
+
+            result =
+              responseText
+                ? JSON.parse(responseText)
+                : null;
+
+          } catch {
+
+            result =
+              responseText;
+
+          }
 
 
           if (!response.ok) {
 
             console.error(
-              "Supabase save error:",
+              "SUPABASE SAVE ERROR:",
               result
             );
 
+
             alert(
-              "Save failed.\n\n" +
+              "Supabase could not save the information.\n\n" +
+              "HTTP Status: " +
+              response.status +
+              "\n\n" +
               (
-                result.message ||
-                result.hint ||
-                JSON.stringify(result)
+                result?.message ||
+                result?.hint ||
+                responseText ||
+                "Unknown Supabase error"
               )
             );
+
 
             btn.textContent =
               "Save Invitation Text Live";
@@ -448,6 +997,10 @@
 
           }
 
+
+          /*
+            Update local display immediately.
+          */
 
           globalStore.details =
             newDetails;
@@ -464,9 +1017,10 @@
         } catch (error) {
 
           console.error(
-            "Connection error:",
+            "SUPABASE CONNECTION ERROR:",
             error
           );
+
 
           alert(
             "Could not connect to Supabase.\n\n" +
@@ -485,25 +1039,25 @@
 
 
     /* =====================================================
-       UPLOAD PHOTOS FROM YOUR COMPUTER
+       PHOTO UPLOAD
        ===================================================== */
 
     document
-      .getElementById('photo-form')
-      .addEventListener('submit', async (e) => {
+      .getElementById("photo-form")
+      .addEventListener("submit", async function(e) {
 
         e.preventDefault();
 
 
         const category =
           document
-            .getElementById('admin-category')
+            .getElementById("admin-category")
             .value;
 
 
         const fileInput =
           document
-            .getElementById('admin-photo-file');
+            .getElementById("admin-photo-file");
 
 
         const files =
@@ -514,7 +1068,7 @@
 
         const btn =
           document
-            .getElementById('upload-btn');
+            .getElementById("upload-btn");
 
 
         if (!files.length) {
@@ -537,14 +1091,22 @@
         let uploadedCount = 0;
 
 
-        for (let file of files) {
+        for (
+          const file of files
+        ) {
+
 
           try {
 
-            /* Upload local file to ImgBB */
 
-            let formData =
+            /* ---------------------------------------------
+               STEP 1:
+               Upload local computer file to ImgBB
+               --------------------------------------------- */
+
+            const formData =
               new FormData();
+
 
             formData.append(
               "image",
@@ -552,47 +1114,81 @@
             );
 
 
-            let response =
+            const imgbbResponse =
               await fetch(
-                `https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`,
+
+                "https://api.imgbb.com/1/upload?key=" +
+                encodeURIComponent(
+                  IMGBB_API_KEY
+                ),
+
                 {
+
                   method: "POST",
+
                   body: formData
+
                 }
+
               );
 
 
-            let data =
-              await response.json();
+            const imgbbData =
+              await imgbbResponse.json();
 
 
             if (
-              data.success &&
-              data.data &&
-              data.data.url
+              !imgbbResponse.ok ||
+              !imgbbData.success
             ) {
 
-              const imageUrl =
-                data.data.url;
+              console.error(
+                "IMGBB ERROR:",
+                imgbbData
+              );
 
 
-              /* Save image information
-                 into Supabase */
+              alert(
+                "ImgBB could not upload:\n" +
+                file.name
+              );
 
-              const supabaseResponse =
-                await fetch(
-                  SUPABASE_URL +
-                  "/rest/v1/timeline_photos",
-                  {
 
-                    method: "POST",
+              continue;
 
-                    headers: {
-                      ...SUPABASE_HEADERS,
-                      "Prefer": "return=representation"
-                    },
+            }
 
-                    body: JSON.stringify({
+
+            const imageUrl =
+              imgbbData.data.url;
+
+
+            /* ---------------------------------------------
+               STEP 2:
+               Save image URL to Supabase
+               --------------------------------------------- */
+
+            const supabaseResponse =
+              await fetch(
+
+                SUPABASE_URL +
+                "/rest/v1/timeline_photos",
+
+                {
+
+                  method: "POST",
+
+                  headers: {
+
+                    ...SUPABASE_HEADERS,
+
+                    "Prefer":
+                      "return=representation"
+
+                  },
+
+                  body:
+                    JSON.stringify({
 
                       category:
                         category,
@@ -602,65 +1198,84 @@
 
                     })
 
-                  }
-                );
+                }
 
-
-              const supabaseResult =
-                await supabaseResponse.json();
-
-
-              if (!supabaseResponse.ok) {
-
-                console.error(
-                  "Supabase photo error:",
-                  supabaseResult
-                );
-
-                alert(
-                  "The photo uploaded to ImgBB, but could not be saved to Supabase.\n\n" +
-                  (
-                    supabaseResult.message ||
-                    JSON.stringify(supabaseResult)
-                  )
-                );
-
-                continue;
-
-              }
-
-
-              uploadedCount++;
-
-            } else {
-
-              console.error(
-                "ImgBB upload failed:",
-                data
               );
 
-              alert(
-                "One of the photos could not be uploaded."
-              );
+
+            const supabaseText =
+              await supabaseResponse.text();
+
+
+            let supabaseResult = null;
+
+
+            try {
+
+              supabaseResult =
+                supabaseText
+                  ? JSON.parse(
+                      supabaseText
+                    )
+                  : null;
+
+            } catch {
+
+              supabaseResult =
+                supabaseText;
 
             }
 
-          } catch (err) {
+
+            if (
+              !supabaseResponse.ok
+            ) {
+
+              console.error(
+                "SUPABASE PHOTO ERROR:",
+                supabaseResult
+              );
+
+
+              alert(
+                "The photo was uploaded to ImgBB,\n" +
+                "but Supabase could not save it.\n\n" +
+                (
+                  supabaseResult?.message ||
+                  supabaseResult?.hint ||
+                  supabaseText ||
+                  "Unknown error"
+                )
+              );
+
+
+              continue;
+
+            }
+
+
+            uploadedCount++;
+
+
+          } catch (error) {
 
             console.error(
-              "Upload error:",
-              err
+              "PHOTO UPLOAD ERROR:",
+              error
             );
 
+
             alert(
-              "Photo upload error:\n\n" +
-              err.message
+              "Photo upload failed:\n\n" +
+              error.message
             );
 
           }
 
         }
 
+
+        /* Reload photos from Supabase */
 
         await loadPhotos();
 
@@ -672,10 +1287,12 @@
 
 
         fileInput.value =
-          '';
+          "";
 
 
-        if (uploadedCount > 0) {
+        if (
+          uploadedCount > 0
+        ) {
 
           alert(
             uploadedCount +
@@ -691,7 +1308,10 @@
        DELETE PHOTO
        ===================================================== */
 
-    async function deletePhoto(photoId) {
+    async function deletePhoto(
+      photoId
+    ) {
+
 
       const confirmed =
         confirm(
@@ -700,41 +1320,53 @@
 
 
       if (!confirmed) {
+
         return;
+
       }
 
 
       try {
 
+
         const response =
           await fetch(
+
             SUPABASE_URL +
             "/rest/v1/timeline_photos?id=eq." +
-            encodeURIComponent(photoId),
+            encodeURIComponent(
+              photoId
+            ),
+
             {
 
               method: "DELETE",
 
-              headers: SUPABASE_HEADERS
+              headers:
+                SUPABASE_HEADERS
 
             }
+
           );
 
 
-        const result =
+        const text =
           await response.text();
 
 
         if (!response.ok) {
 
           console.error(
-            "Supabase delete error:",
-            result
+            "DELETE ERROR:",
+            text
           );
 
+
           alert(
-            "Could not delete photo."
+            "Could not delete the photo.\n\n" +
+            text
           );
+
 
           return;
 
@@ -746,10 +1378,14 @@
 
       } catch (error) {
 
-        console.error(error);
+        console.error(
+          "DELETE CONNECTION ERROR:",
+          error
+        );
+
 
         alert(
-          "Delete error:\n\n" +
+          "Delete failed:\n\n" +
           error.message
         );
 
@@ -766,17 +1402,22 @@
 
       try {
 
+
         const response =
           await fetch(
+
             SUPABASE_URL +
             "/rest/v1/wedding_details?id=eq.1&select=*",
+
             {
 
               method: "GET",
 
-              headers: SUPABASE_HEADERS
+              headers:
+                SUPABASE_HEADERS
 
             }
+
           );
 
 
@@ -787,9 +1428,10 @@
         if (!response.ok) {
 
           console.error(
-            "Supabase details loading error:",
+            "LOAD DETAILS ERROR:",
             data
           );
+
 
           return;
 
@@ -801,26 +1443,27 @@
           data.length > 0
         ) {
 
-          const details =
+
+          const row =
             data[0];
 
 
           globalStore.details = {
 
             title:
-              details.title ||
+              row.title ||
               "OUR WEDDING INVITATION",
 
             letter:
-              details.wedding_letter ||
+              row.wedding_letter ||
               "",
 
             date:
-              details.wedding_date ||
+              row.wedding_date ||
               "",
 
             venue:
-              details.venue_details ||
+              row.venue_details ||
               ""
 
           };
@@ -828,17 +1471,12 @@
         }
 
 
-        renderData();
-
-
       } catch (error) {
 
         console.error(
-          "Details loading error:",
+          "LOAD DETAILS CONNECTION ERROR:",
           error
         );
-
-        renderData();
 
       }
 
@@ -853,17 +1491,22 @@
 
       try {
 
+
         const response =
           await fetch(
+
             SUPABASE_URL +
             "/rest/v1/timeline_photos?select=*&order=created_at.asc",
+
             {
 
               method: "GET",
 
-              headers: SUPABASE_HEADERS
+              headers:
+                SUPABASE_HEADERS
 
             }
+
           );
 
 
@@ -874,11 +1517,13 @@
         if (!response.ok) {
 
           console.error(
-            "Supabase photos loading error:",
+            "LOAD PHOTOS ERROR:",
             data
           );
 
-          globalStore.photos = [];
+
+          globalStore.photos =
+            [];
 
           renderData();
 
@@ -887,55 +1532,74 @@
         }
 
 
-        if (Array.isArray(data)) {
+        if (
+          Array.isArray(data)
+        ) {
+
 
           globalStore.photos =
-            data.map(photo => ({
+            data.map(
+              function(photo) {
 
-              id:
-                photo.id,
+                return {
 
-              category:
-                photo.category,
+                  id:
+                    photo.id,
 
-              url:
-                photo.image_url
+                  category:
+                    photo.category,
 
-            }));
+                  url:
+                    photo.image_url
+
+                };
+
+              }
+            );
 
         } else {
 
-          globalStore.photos = [];
+          globalStore.photos =
+            [];
 
         }
-
-
-        renderData();
 
 
       } catch (error) {
 
         console.error(
-          "Photo loading error:",
+          "LOAD PHOTOS CONNECTION ERROR:",
           error
         );
 
-        renderData();
+
+        globalStore.photos =
+          [];
 
       }
+
+
+      renderData();
 
     }
 
 
     /* =====================================================
-       LOAD EVERYTHING
+       LOAD ALL SUPABASE DATA
        ===================================================== */
 
     async function loadGlobalData() {
 
-      await loadWeddingDetails();
+      await Promise.all([
 
-      await loadPhotos();
+        loadWeddingDetails(),
+
+        loadPhotos()
+
+      ]);
+
+
+      renderData();
 
     }
 
@@ -946,134 +1610,132 @@
 
     function renderData() {
 
-      /* Front desk */
+
+      /* ---------------------------------------------
+         FRONT WEBSITE TEXT
+         --------------------------------------------- */
 
       document.getElementById(
-        'display-title'
+        "display-title"
       ).textContent =
         globalStore.details.title;
 
 
       document.getElementById(
-        'display-letter'
+        "display-letter"
       ).textContent =
         globalStore.details.letter;
 
 
       document.getElementById(
-        'display-date'
+        "display-date"
       ).textContent =
         globalStore.details.date;
 
 
       document.getElementById(
-        'display-venue'
+        "display-venue"
       ).textContent =
         globalStore.details.venue;
 
 
-      /* Admin fields */
+      /* ---------------------------------------------
+         ADMIN FIELDS
+         --------------------------------------------- */
 
       document.getElementById(
-        'admin-title'
+        "admin-title"
       ).value =
         globalStore.details.title;
 
 
       document.getElementById(
-        'admin-letter'
+        "admin-letter"
       ).value =
         globalStore.details.letter;
 
 
       document.getElementById(
-        'admin-date'
+        "admin-date"
       ).value =
         globalStore.details.date;
 
 
       document.getElementById(
-        'admin-venue'
+        "admin-venue"
       ).value =
         globalStore.details.venue;
 
 
-      /* Clear photo grids */
+      /* ---------------------------------------------
+         CLEAR PHOTO GRIDS
+         --------------------------------------------- */
 
       document
-        .querySelectorAll('.photo-grid')
-        .forEach(grid => {
+        .querySelectorAll(".photo-grid")
+        .forEach(
+          function(grid) {
 
-          grid.innerHTML = '';
+            grid.innerHTML =
+              "";
 
-        });
+          }
+        );
 
 
-      /* Render photos */
+      /* ---------------------------------------------
+         DISPLAY PHOTOS
+         --------------------------------------------- */
 
       if (
-        globalStore.photos &&
-        globalStore.photos.length
+        Array.isArray(
+          globalStore.photos
+        )
       ) {
 
-        globalStore.photos.forEach(photo => {
 
-          const grid =
-            document.getElementById(
-              `grid-${photo.category}`
-            );
+        globalStore.photos.forEach(
+          function(photo) {
 
 
-          if (grid) {
-
-            const frame =
-              document.createElement('div');
-
-
-            frame.className =
-              'classic-frame';
+            const grid =
+              document.getElementById(
+                "grid-" +
+                photo.category
+              );
 
 
-            const deleteButton =
-              document.createElement('button');
+            if (!grid) {
 
-
-            deleteButton.className =
-              'delete-btn';
-
-
-            deleteButton.textContent =
-              '✕';
-
-
-            deleteButton.onclick =
-              function() {
-
-                deletePhoto(
-                  photo.id
-                );
-
-              };
-
-
-            if (!isAdminLoggedIn) {
-
-              deleteButton.style.display =
-                'none';
+              return;
 
             }
 
 
+            const frame =
+              document.createElement(
+                "div"
+              );
+
+
+            frame.className =
+              "classic-frame";
+
+
             const innerBorder =
-              document.createElement('div');
+              document.createElement(
+                "div"
+              );
 
 
             innerBorder.className =
-              'inner-border';
+              "inner-border";
 
 
             const image =
-              document.createElement('img');
+              document.createElement(
+                "img"
+              );
 
 
             image.src =
@@ -1081,22 +1743,11 @@
 
 
             image.alt =
-              'Wedding memory';
+              "Wedding memory";
 
 
             image.loading =
-              'lazy';
-
-
-            image.onerror =
-              function() {
-
-                console.error(
-                  "Could not load image:",
-                  photo.url
-                );
-
-              };
+              "lazy";
 
 
             innerBorder.appendChild(
@@ -1105,13 +1756,52 @@
 
 
             frame.appendChild(
-              deleteButton
-            );
-
-
-            frame.appendChild(
               innerBorder
             );
+
+
+            /* -----------------------------------------
+               ADMIN DELETE BUTTON
+               ----------------------------------------- */
+
+            if (
+              isAdminLoggedIn
+            ) {
+
+
+              const deleteBtn =
+                document.createElement(
+                  "button"
+                );
+
+
+              deleteBtn.className =
+                "delete-btn";
+
+
+              deleteBtn.textContent =
+                "✕";
+
+
+              deleteBtn.type =
+                "button";
+
+
+              deleteBtn.onclick =
+                function() {
+
+                  deletePhoto(
+                    photo.id
+                  );
+
+                };
+
+
+              frame.appendChild(
+                deleteBtn
+              );
+
+            }
 
 
             grid.appendChild(
@@ -1119,8 +1809,7 @@
             );
 
           }
-
-        });
+        );
 
       }
 
@@ -1128,7 +1817,7 @@
 
 
     /* =====================================================
-       START
+       START WEBSITE
        ===================================================== */
 
     loadGlobalData();
