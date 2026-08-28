@@ -308,7 +308,7 @@
         <hr style="border-color: #334155; margin: 30px 0;">
 
         <form id="photo-form">
-          <h3>Add Timeline Photo URL</h3>
+          <h3>Add Timeline Photo</h3>
           <div class="form-group">
             <label>Category</label>
             <select id="admin-category" required>
@@ -321,10 +321,10 @@
             </select>
           </div>
           <div class="form-group">
-            <label>Image URL (e.g., hosted image link)</label>
-            <input type="url" id="admin-photo-url" placeholder="https://..." required />
+            <label>Select Photo from Device</label>
+            <input type="file" id="admin-photo-file" accept="image/*" required />
           </div>
-          <button type="submit" class="btn-submit">Add Photo</button>
+          <button type="submit" class="btn-submit">Upload Photo</button>
         </form>
       </div>
 
@@ -361,7 +361,7 @@
       }
     });
 
-    // Load saved details from LocalStorage
+    // Load saved details & photos
     function loadData() {
       const savedDetails = JSON.parse(localStorage.getItem('wedding_details'));
       if (savedDetails) {
@@ -405,19 +405,27 @@
       loadData();
     });
 
-    // Handle Photo Form Submit
+    // Handle Direct File Upload from Device
     document.getElementById('photo-form').addEventListener('submit', (e) => {
       e.preventDefault();
       const category = document.getElementById('admin-category').value;
-      const url = document.getElementById('admin-photo-url').value;
+      const fileInput = document.getElementById('admin-photo-file');
+      const file = fileInput.files[0];
 
-      const savedPhotos = JSON.parse(localStorage.getItem('wedding_photos')) || [];
-      savedPhotos.push({ category, url });
-      localStorage.setItem('wedding_photos', JSON.stringify(savedPhotos));
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const base64Url = event.target.result;
+          const savedPhotos = JSON.parse(localStorage.getItem('wedding_photos')) || [];
+          savedPhotos.push({ category, url: base64Url });
+          localStorage.setItem('wedding_photos', JSON.stringify(savedPhotos));
 
-      alert('Photo added!');
-      document.getElementById('admin-photo-url').value = '';
-      loadData();
+          alert('Photo uploaded successfully!');
+          fileInput.value = '';
+          loadData();
+        };
+        reader.readAsDataURL(file);
+      }
     });
 
     loadData();
