@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Our Journey</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet"
+  >
 
   <style>
+
     :root {
       --gold: #d4af37;
       --deep-gold: #aa820a;
@@ -32,9 +33,10 @@
       overflow-x: hidden;
     }
 
-    /* =========================
+
+    /* ==================================================
        ENTRANCE SCREEN
-       ========================= */
+    ================================================== */
 
     #entrance-screen {
       position: fixed;
@@ -63,6 +65,7 @@
       transition: opacity 1.2s ease;
     }
 
+
     .celestial-door {
       width: 140px;
       height: 260px;
@@ -82,6 +85,7 @@
 
       margin-top: auto;
     }
+
 
     .begin-btn {
       margin-top: 30px;
@@ -105,9 +109,10 @@
         0 0 20px var(--gold);
     }
 
-    /* =========================
+
+    /* ==================================================
        MAIN CONTENT
-       ========================= */
+    ================================================== */
 
     #main-content {
       opacity: 0;
@@ -129,6 +134,7 @@
       padding-bottom: 100px;
     }
 
+
     .letter-container {
       max-width: 800px;
 
@@ -138,6 +144,7 @@
 
       text-align: center;
     }
+
 
     .letter-card {
       background: var(--card-bg);
@@ -154,6 +161,7 @@
         0 20px 40px rgba(0,0,0,0.5);
     }
 
+
     .letter-card h1 {
       font-family: 'Cinzel', serif;
 
@@ -163,6 +171,7 @@
 
       margin-bottom: 15px;
     }
+
 
     .letter-text {
       font-size: 1.2rem;
@@ -176,9 +185,10 @@
       white-space: pre-line;
     }
 
-    /* =========================
+
+    /* ==================================================
        TIMELINE
-       ========================= */
+    ================================================== */
 
     .timeline {
       max-width: 1200px;
@@ -187,6 +197,7 @@
 
       padding: 0 20px;
     }
+
 
     .section-title {
       font-family: 'Cinzel', serif;
@@ -203,6 +214,7 @@
         0 2px 4px rgba(0,0,0,0.5);
     }
 
+
     .photo-grid {
       display: grid;
 
@@ -216,6 +228,7 @@
 
       justify-content: center;
     }
+
 
     .classic-frame {
       background: #3a2212;
@@ -232,6 +245,7 @@
       position: relative;
     }
 
+
     .inner-border {
       border: 3px solid #e0c878;
 
@@ -239,6 +253,7 @@
 
       background: #fff8eb;
     }
+
 
     .classic-frame img {
       width: 100%;
@@ -249,6 +264,7 @@
 
       display: block;
     }
+
 
     .delete-btn {
       position: absolute;
@@ -277,13 +293,15 @@
       display: none;
     }
 
+
     .classic-frame:hover .delete-btn {
       display: block;
     }
 
-    /* =========================
+
+    /* ==================================================
        ADMIN
-       ========================= */
+    ================================================== */
 
     #admin-section {
       max-width: 800px;
@@ -301,6 +319,7 @@
       color: #fff;
     }
 
+
     #admin-section h2 {
       font-family: 'Cinzel', serif;
 
@@ -308,6 +327,16 @@
 
       margin-bottom: 20px;
     }
+
+
+    #admin-section h3 {
+      font-family: 'Cinzel', serif;
+
+      color: var(--gold);
+
+      margin-bottom: 20px;
+    }
+
 
     .form-group {
       margin-bottom: 15px;
@@ -319,11 +348,13 @@
       gap: 5px;
     }
 
+
     .form-group label {
       font-size: 0.9rem;
 
       color: #cbd5e1;
     }
+
 
     .form-group input,
     .form-group textarea,
@@ -338,6 +369,12 @@
 
       color: #fff;
     }
+
+
+    .form-group input[type="file"] {
+      cursor: pointer;
+    }
+
 
     .btn-submit {
       background: var(--gold);
@@ -357,15 +394,23 @@
       font-family: 'Cinzel', serif;
     }
 
+
+    .btn-submit:hover {
+      opacity: 0.9;
+    }
+
+
     .btn-submit:disabled {
       opacity: 0.6;
 
       cursor: not-allowed;
     }
 
+
     #admin-dashboard-controls {
       display: none;
     }
+
 
     .status-message {
       margin-top: 12px;
@@ -377,6 +422,7 @@
       display: none;
     }
 
+
     .status-success {
       display: block;
 
@@ -384,6 +430,7 @@
 
       color: #86efac;
     }
+
 
     .status-error {
       display: block;
@@ -393,9 +440,27 @@
       color: #fca5a5;
     }
 
-    /* =========================
+
+    /* ==================================================
+       LOADING MESSAGE
+    ================================================== */
+
+    #loading-message {
+      text-align: center;
+
+      color: var(--gold);
+
+      font-family: 'Cinzel', serif;
+
+      margin: 40px 20px;
+
+      display: none;
+    }
+
+
+    /* ==================================================
        MOBILE
-       ========================= */
+    ================================================== */
 
     @media (max-width: 600px) {
 
@@ -424,15 +489,19 @@
 
         padding: 20px;
       }
+
     }
+
   </style>
 </head>
 
+
 <body>
 
-  <!-- =========================
+
+  <!-- ==================================================
        ENTRANCE
-       ========================= -->
+  ================================================== -->
 
   <div id="entrance-screen">
 
@@ -448,10 +517,12 @@
       Welcome To Our Story
     </div>
 
+
     <div
       class="celestial-door"
       onclick="enterSite()"
     ></div>
+
 
     <button
       class="begin-btn"
@@ -463,11 +534,16 @@
   </div>
 
 
-  <!-- =========================
+  <!-- ==================================================
        MAIN CONTENT
-       ========================= -->
+  ================================================== -->
 
   <div id="main-content">
+
+
+    <!-- ==================================================
+         WEDDING LETTER
+    ================================================== -->
 
     <div class="letter-container">
 
@@ -477,12 +553,14 @@
           OUR WEDDING INVITATION
         </h1>
 
+
         <p
           class="letter-text"
           id="display-letter"
         >
           Welcome to our journey of love! We invite you to explore our story through the years as we step into our forever.
         </p>
+
 
         <p
           id="display-date"
@@ -493,6 +571,7 @@
         >
           October 24, 2026
         </p>
+
 
         <p
           id="display-venue"
@@ -511,11 +590,12 @@
     </div>
 
 
-    <!-- =========================
+    <!-- ==================================================
          TIMELINE
-         ========================= -->
+    ================================================== -->
 
     <div class="timeline">
+
 
       <div class="section-title">
         First Date
@@ -576,23 +656,32 @@
         id="grid-wedding"
       ></div>
 
+
+      <div id="loading-message">
+        Loading our memories...
+      </div>
+
     </div>
 
 
-    <!-- =========================
+    <!-- ==================================================
          ADMIN CONTROL PANEL
-         ========================= -->
+    ================================================== -->
 
     <div id="admin-section">
+
 
       <h2>
         Admin Control Panel
       </h2>
 
 
-      <!-- LOGIN -->
+      <!-- ==================================================
+           LOGIN
+      ================================================== -->
 
       <form id="admin-login-form">
+
 
         <div class="form-group">
 
@@ -643,20 +732,26 @@
           Invalid credentials!
         </p>
 
+
       </form>
 
 
-      <!-- DASHBOARD -->
+      <!-- ==================================================
+           DASHBOARD
+      ================================================== -->
 
       <div id="admin-dashboard-controls">
 
 
-        <!-- DETAILS -->
+        <!-- ==================================================
+             DETAILS
+        ================================================== -->
 
         <form
           id="details-form"
           style="margin-bottom: 30px;"
         >
+
 
           <h3>
             Edit Invitation Letter & Details
@@ -737,6 +832,7 @@
             class="status-message"
           ></div>
 
+
         </form>
 
 
@@ -748,9 +844,12 @@
         />
 
 
-        <!-- PHOTO UPLOAD -->
+        <!-- ==================================================
+             PHOTO UPLOAD
+        ================================================== -->
 
         <form id="photo-form">
+
 
           <h3>
             Cloud Photo Uploader
@@ -762,6 +861,7 @@
             <label>
               Select Category
             </label>
+
 
             <select
               id="admin-category"
@@ -800,8 +900,9 @@
           <div class="form-group">
 
             <label>
-              Select Photos from Device
+              Select Photos from Device (Multiple allowed)
             </label>
+
 
             <input
               type="file"
@@ -828,60 +929,46 @@
             class="status-message"
           ></div>
 
+
         </form>
+
 
       </div>
 
+
     </div>
+
 
   </div>
 
 
-  <!-- =========================
+  <!-- ==================================================
        JAVASCRIPT
-       ========================= -->
+  ================================================== -->
 
   <script>
 
-    console.log("NEW WEDDING WEBSITE CODE LOADED");
-    console.log("Database: wedding_details + timeline_photos");
-    console.log("JSONBin / wedding_data: NOT USED");
+
+    /* ==================================================
+       CLOUDflare WORKER
+    ================================================== */
+
+    const API_URL =
+      "https://wedding-api.anna898450.workers.dev";
 
 
-    /* ==========================================
-       SUPABASE
-       ========================================== */
-
-    const SUPABASE_URL =
-      "https://vrtlvjxkcbsrpinlrgvr.supabase.co";
-
-    const SUPABASE_ANON_KEY =
-      "sb_publishable_NKnrMXIQUwu5PdXBcg89Qg_mSdZufFb";
-
-
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY,
-        {
-          auth: {
-            persistSession: false
-          }
-        }
-      );
-
-
-    /* ==========================================
+    /* ==================================================
        IMGBB
-       ========================================== */
+       Used only for image hosting.
+    ================================================== */
 
     const IMGBB_API_KEY =
       "c1ffa015b1f63ba8be938ca1a5c97aa3";
 
 
-    /* ==========================================
+    /* ==================================================
        DEFAULT DATA
-       ========================================== */
+    ================================================== */
 
     let globalStore = {
 
@@ -909,40 +996,36 @@
     let isAdminLoggedIn = false;
 
 
-    /* ==========================================
-       ENTRANCE
-       ========================================== */
+    /* ==================================================
+       ENTRANCE ANIMATION
+    ================================================== */
 
     function enterSite() {
 
-      const entrance =
-        document.getElementById(
-          'entrance-screen'
-        );
-
-      const main =
-        document.getElementById(
-          'main-content'
-        );
-
-
-      entrance.style.opacity = '0';
+      document
+        .getElementById("entrance-screen")
+        .style.opacity = "0";
 
 
       setTimeout(() => {
 
-        entrance.style.display = 'none';
+        document
+          .getElementById("entrance-screen")
+          .style.display = "none";
 
-        main.style.opacity = '1';
+
+        document
+          .getElementById("main-content")
+          .style.opacity = "1";
 
       }, 1200);
 
     }
 
 
-    /* ==========================================
-       STATUS
-       ========================================== */
+    /* ==================================================
+       STATUS MESSAGE
+    ================================================== */
 
     function showStatus(
       elementId,
@@ -962,23 +1045,184 @@
 
       element.className =
         success
-          ? 'status-message status-success'
-          : 'status-message status-error';
+          ? "status-message status-success"
+          : "status-message status-error";
 
     }
 
 
-    /* ==========================================
+    /* ==================================================
+       API REQUEST HELPER
+    ================================================== */
+
+    async function apiRequest(
+      endpoint,
+      options = {}
+    ) {
+
+      const response =
+        await fetch(
+          API_URL + endpoint,
+          {
+            ...options,
+
+            cache: "no-store",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+
+              ...(options.headers || {})
+            }
+          }
+        );
+
+
+      const text =
+        await response.text();
+
+
+      let data;
+
+
+      try {
+
+        data =
+          text
+            ? JSON.parse(text)
+            : {};
+
+      }
+
+      catch {
+
+        data = {
+          error: text
+        };
+
+      }
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.error ||
+          data.message ||
+          `API error ${response.status}`
+        );
+
+      }
+
+
+      if (
+        data.success === false
+      ) {
+
+        throw new Error(
+          data.error ||
+          "API request failed."
+        );
+
+      }
+
+
+      return data;
+
+    }
+
+
+    /* ==================================================
+       LOAD EVERYTHING FROM CLOUDFLARE API
+    ================================================== */
+
+    async function loadFromAPI() {
+
+      try {
+
+        const data =
+          await apiRequest(
+            "/wedding"
+          );
+
+
+        /* ==============================================
+           WEDDING DETAILS
+        ============================================== */
+
+        if (data.details) {
+
+          globalStore.details = {
+
+            title:
+              data.details.title ||
+              "",
+
+            letter:
+              data.details.letter ||
+              "",
+
+            date:
+              data.details.date ||
+              "",
+
+            venue:
+              data.details.venue ||
+              ""
+
+          };
+
+        }
+
+
+        /* ==============================================
+           PHOTOS
+        ============================================== */
+
+        globalStore.photos =
+          Array.isArray(data.photos)
+            ? data.photos
+            : [];
+
+
+        renderData();
+
+
+        console.log(
+          "✓ Wedding data loaded successfully."
+        );
+
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "LOAD WEDDING DATA ERROR:",
+          error
+        );
+
+
+        console.error(
+          "Cloudflare API could not load wedding data:",
+          error.message
+        );
+
+      }
+
+    }
+
+
+    /* ==================================================
        ADMIN LOGIN
-       ========================================== */
+    ================================================== */
 
     document
       .getElementById(
-        'admin-login-form'
+        "admin-login-form"
       )
       .addEventListener(
-        'submit',
-        async function(e) {
+        "submit",
+        async (e) => {
 
           e.preventDefault();
 
@@ -986,7 +1230,7 @@
           const user =
             document
               .getElementById(
-                'admin-username'
+                "admin-username"
               )
               .value
               .trim();
@@ -995,47 +1239,35 @@
           const pass =
             document
               .getElementById(
-                'admin-password'
+                "admin-password"
               )
               .value
               .trim();
 
 
-          const loginError =
-            document.getElementById(
-              'login-error'
-            );
-
-
           if (
-            user === 'shogun' &&
-            pass === '182002'
+            user === "shogun" &&
+            pass === "182002"
           ) {
-
-            loginError.style.display =
-              'none';
-
 
             isAdminLoggedIn = true;
 
 
             document
               .getElementById(
-                'admin-login-form'
+                "admin-login-form"
               )
-              .style.display =
-                'none';
+              .style.display = "none";
 
 
             document
               .getElementById(
-                'admin-dashboard-controls'
+                "admin-dashboard-controls"
               )
-              .style.display =
-                'block';
+              .style.display = "block";
 
 
-            await loadFromSupabase();
+            await loadFromAPI();
 
 
             renderData();
@@ -1044,8 +1276,11 @@
 
           else {
 
-            loginError.style.display =
-              'block';
+            document
+              .getElementById(
+                "login-error"
+              )
+              .style.display = "block";
 
           }
 
@@ -1053,31 +1288,31 @@
       );
 
 
-    /* ==========================================
-       SAVE DETAILS
-       ========================================== */
+    /* ==================================================
+       SAVE WEDDING DETAILS
+    ================================================== */
 
     document
       .getElementById(
-        'details-form'
+        "details-form"
       )
       .addEventListener(
-        'submit',
-        async function(e) {
+        "submit",
+        async (e) => {
 
           e.preventDefault();
 
 
           const btn =
             document.getElementById(
-              'save-details-btn'
+              "save-details-btn"
             );
 
 
           btn.disabled = true;
 
           btn.textContent =
-            'Saving...';
+            "Saving...";
 
 
           const newDetails = {
@@ -1085,7 +1320,7 @@
             title:
               document
                 .getElementById(
-                  'admin-title'
+                  "admin-title"
                 )
                 .value
                 .trim(),
@@ -1093,7 +1328,7 @@
             letter:
               document
                 .getElementById(
-                  'admin-letter'
+                  "admin-letter"
                 )
                 .value
                 .trim(),
@@ -1101,7 +1336,7 @@
             date:
               document
                 .getElementById(
-                  'admin-date'
+                  "admin-date"
                 )
                 .value
                 .trim(),
@@ -1109,7 +1344,7 @@
             venue:
               document
                 .getElementById(
-                  'admin-venue'
+                  "admin-venue"
                 )
                 .value
                 .trim()
@@ -1119,56 +1354,28 @@
 
           try {
 
-            console.log(
-              "Saving wedding_details..."
+            /* ==========================================
+               SEND TO CLOUDFLARE WORKER
+            ========================================== */
+
+            await apiRequest(
+              "/wedding/details",
+              {
+
+                method: "PUT",
+
+                body:
+                  JSON.stringify(
+                    newDetails
+                  )
+
+              }
             );
 
 
-            const {
-              error
-            } =
-              await supabaseClient
-                .from(
-                  'wedding_details'
-                )
-                .upsert(
-                  {
-                    id: 1,
-
-                    title:
-                      newDetails.title,
-
-                    wedding_letter:
-                      newDetails.letter,
-
-                    wedding_date:
-                      newDetails.date,
-
-                    venue_details:
-                      newDetails.venue
-                  },
-                  {
-                    onConflict: 'id'
-                  }
-                );
-
-
-            if (error) {
-
-              console.error(
-                "Supabase save error:",
-                error
-              );
-
-              throw error;
-
-            }
-
-
-            console.log(
-              "Wedding details saved successfully."
-            );
-
+            /* ==========================================
+               UPDATE LOCAL SCREEN
+            ========================================== */
 
             globalStore.details =
               newDetails;
@@ -1178,24 +1385,25 @@
 
 
             showStatus(
-              'details-status',
-              '✓ Saved successfully to Supabase. Anyone opening the website will see the updated information.',
+              "details-status",
+              "✓ Saved successfully. The public website has been updated.",
               true
             );
+
 
           }
 
           catch (error) {
 
             console.error(
-              'SAVE DETAILS ERROR:',
+              "SAVE DETAILS ERROR:",
               error
             );
 
 
             showStatus(
-              'details-status',
-              '✕ Could not save: ' +
+              "details-status",
+              "✕ Could not save: " +
               error.message,
               false
             );
@@ -1206,23 +1414,23 @@
           btn.disabled = false;
 
           btn.textContent =
-            'Save Invitation Text Live';
+            "Save Invitation Text Live";
 
         }
       );
 
 
-    /* ==========================================
+    /* ==================================================
        PHOTO UPLOAD
-       ========================================== */
+    ================================================== */
 
     document
       .getElementById(
-        'photo-form'
+        "photo-form"
       )
       .addEventListener(
-        'submit',
-        async function(e) {
+        "submit",
+        async (e) => {
 
           e.preventDefault();
 
@@ -1230,7 +1438,7 @@
           const category =
             document
               .getElementById(
-                'admin-category'
+                "admin-category"
               )
               .value;
 
@@ -1238,7 +1446,7 @@
           const fileInput =
             document
               .getElementById(
-                'admin-photo-file'
+                "admin-photo-file"
               );
 
 
@@ -1249,16 +1457,17 @@
 
 
           const btn =
-            document.getElementById(
-              'upload-btn'
-            );
+            document
+              .getElementById(
+                "upload-btn"
+              );
 
 
           if (!files.length) {
 
             showStatus(
-              'photo-status',
-              'Please select at least one photo.',
+              "photo-status",
+              "Please select at least one photo.",
               false
             );
 
@@ -1270,7 +1479,7 @@
           btn.disabled = true;
 
           btn.textContent =
-            'Uploading...';
+            "Uploading...";
 
 
           let successCount = 0;
@@ -1278,51 +1487,44 @@
 
           try {
 
+
+            /* ==========================================
+               UPLOAD EACH IMAGE
+            ========================================== */
+
             for (
               const file of files
             ) {
 
-              console.log(
-                "Uploading image:",
-                file.name
-              );
 
-
-              /* =========================
-                 IMG BB
-                 ========================= */
+              /* ========================================
+                 STEP 1
+                 Upload image to ImgBB
+              ======================================== */
 
               const formData =
                 new FormData();
 
 
               formData.append(
-                'image',
+                "image",
                 file
               );
 
 
               const response =
                 await fetch(
-                  'https://api.imgbb.com/1/upload?key=' +
-                  encodeURIComponent(
-                    IMGBB_API_KEY
-                  ),
+                  `https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`,
                   {
-                    method: 'POST',
-                    body: formData
+
+                    method: "POST",
+
+                    body: formData,
+
+                    cache: "no-store"
+
                   }
                 );
-
-
-              if (!response.ok) {
-
-                throw new Error(
-                  'ImgBB returned HTTP ' +
-                  response.status
-                );
-
-              }
 
 
               const data =
@@ -1330,19 +1532,11 @@
 
 
               if (
-                !data ||
-                !data.success ||
-                !data.data ||
-                !data.data.url
+                !data.success
               ) {
 
-                console.error(
-                  "ImgBB response:",
-                  data
-                );
-
                 throw new Error(
-                  'Image hosting upload failed.'
+                  "Image hosting upload failed."
                 );
 
               }
@@ -1352,44 +1546,30 @@
                 data.data.url;
 
 
-              console.log(
-                "Image uploaded:",
-                imageUrl
-              );
+              /* ========================================
+                 STEP 2
+                 Send image URL to Cloudflare Worker
+              ======================================== */
 
+              await apiRequest(
+                "/wedding/photos",
+                {
 
-              /* =========================
-                 SAVE URL TO SUPABASE
-                 ========================= */
+                  method: "POST",
 
-              const {
-                error
-              } =
-                await supabaseClient
-                  .from(
-                    'timeline_photos'
-                  )
-                  .insert(
-                    {
+                  body:
+                    JSON.stringify({
+
                       category:
                         category,
 
                       image_url:
                         imageUrl
-                    }
-                  );
 
+                    })
 
-              if (error) {
-
-                console.error(
-                  "Photo database error:",
-                  error
-                );
-
-                throw error;
-
-              }
+                }
+              );
 
 
               successCount++;
@@ -1397,36 +1577,40 @@
             }
 
 
-            await loadFromSupabase();
+            /* ==========================================
+               STEP 3
+               Reload everything from server
+            ========================================== */
+
+            await loadFromAPI();
 
 
             renderData();
 
 
             showStatus(
-              'photo-status',
-              '✓ ' +
-              successCount +
-              ' photo(s) uploaded and saved to Supabase successfully.',
+              "photo-status",
+              `✓ ${successCount} photo(s) uploaded successfully and saved to the website.`,
               true
             );
 
 
-            fileInput.value = '';
+            fileInput.value = "";
+
 
           }
 
           catch (error) {
 
             console.error(
-              'PHOTO UPLOAD ERROR:',
+              "PHOTO UPLOAD ERROR:",
               error
             );
 
 
             showStatus(
-              'photo-status',
-              '✕ Upload failed: ' +
+              "photo-status",
+              "✕ Upload failed: " +
               error.message,
               false
             );
@@ -1437,15 +1621,15 @@
           btn.disabled = false;
 
           btn.textContent =
-            'Upload Photos Live';
+            "Upload Photos Live";
 
         }
       );
 
 
-    /* ==========================================
+    /* ==================================================
        DELETE PHOTO
-       ========================================== */
+    ================================================== */
 
     async function deletePhoto(
       photoId
@@ -1460,7 +1644,7 @@
 
       const confirmed =
         confirm(
-          'Delete this photo from the website?'
+          "Delete this photo from the website?"
         );
 
 
@@ -1473,361 +1657,150 @@
 
       try {
 
-        const {
-          error
-        } =
-          await supabaseClient
-            .from(
-              'timeline_photos'
-            )
-            .delete()
-            .eq(
-              'id',
-              photoId
-            );
-
-
-        if (error) {
-
-          throw error;
-
-        }
-
-
-        await loadFromSupabase();
-
-
-        renderData();
-
-
-        alert(
-          'Photo deleted successfully.'
-        );
-
-      }
-
-      catch (error) {
-
-        console.error(
-          'DELETE PHOTO ERROR:',
-          error
-        );
-
-
-        alert(
-          'Could not delete photo: ' +
-          error.message
-        );
-
-      }
-
-    }
-
-
-    /* ==========================================
-       LOAD FROM SUPABASE
-       ========================================== */
-
-    async function loadFromSupabase() {
-
-      console.log(
-        "Loading data from Supabase..."
-      );
-
-
-      try {
-
-        /* =========================
-           WEDDING DETAILS
-           ========================= */
-
-        const {
-          data: detailsData,
-          error: detailsError
-        } =
-          await supabaseClient
-            .from(
-              'wedding_details'
-            )
-            .select(
-              'id,title,wedding_letter,wedding_date,venue_details'
-            )
-            .eq(
-              'id',
-              1
-            )
-            .maybeSingle();
-
-
-        if (detailsError) {
-
-          console.error(
-            "Wedding details error:",
-            detailsError
-          );
-
-          throw detailsError;
-
-        }
-
-
-        if (detailsData) {
-
-          console.log(
-            "Wedding details loaded:",
-            detailsData
-          );
-
-
-          globalStore.details = {
-
-            title:
-              detailsData.title ||
-              '',
-
-            letter:
-              detailsData.wedding_letter ||
-              '',
-
-            date:
-              detailsData.wedding_date ||
-              '',
-
-            venue:
-              detailsData.venue_details ||
-              ''
-
-          };
-
-        }
-
-        else {
-
-          console.warn(
-            "No wedding_details row with id=1 found."
-          );
-
-        }
-
-
-        /* =========================
-           TIMELINE PHOTOS
-           ========================= */
-
-        const {
-          data: photosData,
-          error: photosError
-        } =
-          await supabaseClient
-            .from(
-              'timeline_photos'
-            )
-            .select(
-              'id,category,image_url,created_at'
-            )
-            .order(
-              'created_at',
-              {
-                ascending: true
-              }
-            );
-
-
-        if (photosError) {
-
-          console.error(
-            "Timeline photos error:",
-            photosError
-          );
-
-          throw photosError;
-
-        }
-
-
-        globalStore.photos =
-          (photosData || [])
-            .map(
-              function(photo) {
-
-                return {
-
-                  id:
-                    photo.id,
-
-                  category:
-                    photo.category,
-
-                  url:
-                    photo.image_url
-
-                };
-
-              }
-            );
-
-
-        console.log(
-          "Photos loaded:",
-          globalStore.photos.length
-        );
-
-
-        renderData();
-
-
-        console.log(
-          "Supabase loading complete."
-        );
-
-      }
-
-      catch (error) {
-
-        console.error(
-          'SUPABASE LOAD ERROR:',
-          error
-        );
-
-
-        showPublicError(
-          'Could not load information from Supabase: ' +
-          error.message
-        );
-
-      }
-
-    }
-
-
-    /* ==========================================
-       PUBLIC ERROR
-       ========================================== */
-
-    function showPublicError(
-      message
-    ) {
-
-      console.error(
-        message
-      );
-
-      /*
-       We don't replace the beautiful
-       website with a giant error screen.
-       The error is only logged in console.
-      */
-
-    }
-
-
-    /* ==========================================
-       RENDER
-       ========================================== */
-
-    function renderData() {
-
-      /* =========================
-         INVITATION
-         ========================= */
-
-      document
-        .getElementById(
-          'display-title'
-        )
-        .textContent =
-          globalStore.details.title;
-
-
-      document
-        .getElementById(
-          'display-letter'
-        )
-        .textContent =
-          globalStore.details.letter;
-
-
-      document
-        .getElementById(
-          'display-date'
-        )
-        .textContent =
-          globalStore.details.date;
-
-
-      document
-        .getElementById(
-          'display-venue'
-        )
-        .textContent =
-          globalStore.details.venue;
-
-
-      /* =========================
-         ADMIN FIELDS
-         ========================= */
-
-      document
-        .getElementById(
-          'admin-title'
-        )
-        .value =
-          globalStore.details.title;
-
-
-      document
-        .getElementById(
-          'admin-letter'
-        )
-        .value =
-          globalStore.details.letter;
-
-
-      document
-        .getElementById(
-          'admin-date'
-        )
-        .value =
-          globalStore.details.date;
-
-
-      document
-        .getElementById(
-          'admin-venue'
-        )
-        .value =
-          globalStore.details.venue;
-
-
-      /* =========================
-         CLEAR PHOTO GRIDS
-         ========================= */
-
-      document
-        .querySelectorAll(
-          '.photo-grid'
-        )
-        .forEach(
-          function(grid) {
-
-            grid.innerHTML = '';
+        await apiRequest(
+          `/wedding/photos/${encodeURIComponent(photoId)}`,
+          {
+
+            method: "DELETE"
 
           }
         );
 
 
-      /* =========================
-         PHOTOS
-         ========================= */
+        await loadFromAPI();
+
+
+        renderData();
+
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "DELETE PHOTO ERROR:",
+          error
+        );
+
+
+        alert(
+          "Could not delete photo: " +
+          error.message
+        );
+
+      }
+
+    }
+
+
+    /* ==================================================
+       RENDER DATA
+    ================================================== */
+
+    function renderData() {
+
+
+      /* ==============================================
+         WEDDING DETAILS
+      ============================================== */
+
+      document
+        .getElementById(
+          "display-title"
+        )
+        .textContent =
+          globalStore.details.title;
+
+
+      document
+        .getElementById(
+          "display-letter"
+        )
+        .textContent =
+          globalStore.details.letter;
+
+
+      document
+        .getElementById(
+          "display-date"
+        )
+        .textContent =
+          globalStore.details.date;
+
+
+      document
+        .getElementById(
+          "display-venue"
+        )
+        .textContent =
+          globalStore.details.venue;
+
+
+      /* ==============================================
+         ADMIN FIELDS
+      ============================================== */
+
+      document
+        .getElementById(
+          "admin-title"
+        )
+        .value =
+          globalStore.details.title;
+
+
+      document
+        .getElementById(
+          "admin-letter"
+        )
+        .value =
+          globalStore.details.letter;
+
+
+      document
+        .getElementById(
+          "admin-date"
+        )
+        .value =
+          globalStore.details.date;
+
+
+      document
+        .getElementById(
+          "admin-venue"
+        )
+        .value =
+          globalStore.details.venue;
+
+
+      /* ==============================================
+         CLEAR PHOTO GRIDS
+      ============================================== */
+
+      document
+        .querySelectorAll(
+          ".photo-grid"
+        )
+        .forEach(
+          grid => {
+
+            grid.innerHTML = "";
+
+          }
+        );
+
+
+      /* ==============================================
+         RENDER PHOTOS
+      ============================================== */
 
       globalStore.photos
         .forEach(
-          function(photo) {
+          photo => {
+
 
             const grid =
               document.getElementById(
-                'grid-' +
-                photo.category
+                `grid-${photo.category}`
               );
 
 
@@ -1838,48 +1811,54 @@
             }
 
 
+            /* ==========================================
+               FRAME
+            ========================================== */
+
             const frame =
               document.createElement(
-                'div'
+                "div"
               );
 
 
             frame.className =
-              'classic-frame';
+              "classic-frame";
 
 
-            /* =========================
+            /* ==========================================
                DELETE BUTTON
-               ========================= */
+            ========================================== */
 
             if (isAdminLoggedIn) {
 
               const deleteBtn =
                 document.createElement(
-                  'button'
+                  "button"
                 );
 
 
               deleteBtn.className =
-                'delete-btn';
+                "delete-btn";
 
 
               deleteBtn.textContent =
-                '✕';
+                "✕";
 
 
               deleteBtn.title =
-                'Delete photo';
+                "Delete photo";
 
 
-              deleteBtn.onclick =
-                function() {
+              deleteBtn.addEventListener(
+                "click",
+                () => {
 
                   deletePhoto(
                     photo.id
                   );
 
-                };
+                }
+              );
 
 
               frame.appendChild(
@@ -1889,56 +1868,60 @@
             }
 
 
-            /* =========================
-               FRAME
-               ========================= */
+            /* ==========================================
+               INNER BORDER
+            ========================================== */
 
-            const inner =
+            const innerBorder =
               document.createElement(
-                'div'
+                "div"
               );
 
 
-            inner.className =
-              'inner-border';
+            innerBorder.className =
+              "inner-border";
 
 
-            const img =
+            /* ==========================================
+               IMAGE
+            ========================================== */
+
+            const image =
               document.createElement(
-                'img'
+                "img"
               );
 
 
-            img.src =
+            image.src =
               photo.url;
 
 
-            img.alt =
-              'Wedding memory';
+            image.alt =
+              "Wedding memory";
 
 
-            img.loading =
-              'lazy';
+            image.loading =
+              "lazy";
 
 
-            img.onerror =
+            image.onerror =
               function() {
 
                 console.error(
-                  'Could not load image:',
+                  "Could not load image:",
                   photo.url
                 );
 
               };
 
 
-            inner.appendChild(
-              img
+            innerBorder.appendChild(
+              image
             );
 
 
             frame.appendChild(
-              inner
+              innerBorder
             );
 
 
@@ -1952,23 +1935,11 @@
     }
 
 
-    /* ==========================================
+    /* ==================================================
        INITIAL LOAD
-       ========================================== */
+    ================================================== */
 
-    window.addEventListener(
-      'DOMContentLoaded',
-      function() {
-
-        console.log(
-          "Wedding website starting..."
-        );
-
-
-        loadFromSupabase();
-
-      }
-    );
+    loadFromAPI();
 
 
   </script>
