@@ -6,7 +6,10 @@
 
   <title>Our Journey</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet"
+  >
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -309,6 +312,12 @@
       margin-bottom: 20px;
     }
 
+    #admin-dashboard-controls h3 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold);
+      margin-bottom: 15px;
+    }
+
     .form-group {
       margin-bottom: 15px;
 
@@ -339,6 +348,10 @@
       color: #fff;
     }
 
+    .form-group textarea {
+      resize: vertical;
+    }
+
     .btn-submit {
       background: var(--gold);
 
@@ -355,6 +368,10 @@
       cursor: pointer;
 
       font-family: 'Cinzel', serif;
+    }
+
+    .btn-submit:hover {
+      filter: brightness(1.08);
     }
 
     .btn-submit:disabled {
@@ -375,6 +392,8 @@
       border-radius: 4px;
 
       display: none;
+
+      line-height: 1.5;
     }
 
     .status-success {
@@ -393,11 +412,33 @@
       color: #fca5a5;
     }
 
+    .status-loading {
+      display: block;
+
+      background: rgba(212,175,55,0.12);
+
+      color: #facc15;
+    }
+
     /* =========================
        MOBILE
        ========================= */
 
     @media (max-width: 600px) {
+
+      #entrance-screen {
+        padding: 40px 15px;
+      }
+
+      .celestial-door {
+        width: 110px;
+        height: 210px;
+      }
+
+      .begin-btn {
+        font-size: 1.05rem;
+        letter-spacing: 3px;
+      }
 
       .letter-card {
         padding: 35px 20px;
@@ -603,6 +644,7 @@
           <input
             type="text"
             id="admin-username"
+            autocomplete="username"
             required
           />
 
@@ -618,6 +660,7 @@
           <input
             type="password"
             id="admin-password"
+            autocomplete="current-password"
             required
           />
 
@@ -649,7 +692,6 @@
       <!-- DASHBOARD -->
 
       <div id="admin-dashboard-controls">
-
 
         <!-- DETAILS -->
 
@@ -844,7 +886,7 @@
   <script>
 
     /* ==========================================
-       SUPABASE CONNECTION
+       SUPABASE
        ========================================== */
 
     const SUPABASE_URL =
@@ -862,7 +904,6 @@
 
     /* ==========================================
        IMGBB
-       Used only for hosting uploaded photos.
        ========================================== */
 
     const IMGBB_API_KEY =
@@ -873,7 +914,7 @@
        DEFAULT DATA
        ========================================== */
 
-    let globalStore = {
+    const DEFAULT_STORE = {
 
       details: {
 
@@ -896,28 +937,42 @@
     };
 
 
+    let globalStore =
+      JSON.parse(
+        JSON.stringify(DEFAULT_STORE)
+      );
+
+
     let isAdminLoggedIn = false;
+
+    let isSaving = false;
+
+    let isUploading = false;
 
 
     /* ==========================================
-       ENTRANCE ANIMATION
+       ENTRANCE
        ========================================== */
 
     function enterSite() {
 
-      document
-        .getElementById('entrance-screen')
-        .style.opacity = '0';
+      const entrance =
+        document.getElementById(
+          'entrance-screen'
+        );
+
+      const main =
+        document.getElementById(
+          'main-content'
+        );
+
+      entrance.style.opacity = '0';
 
       setTimeout(() => {
 
-        document
-          .getElementById('entrance-screen')
-          .style.display = 'none';
+        entrance.style.display = 'none';
 
-        document
-          .getElementById('main-content')
-          .style.opacity = '1';
+        main.style.opacity = '1';
 
       }, 1200);
 
@@ -925,24 +980,221 @@
 
 
     /* ==========================================
-       STATUS MESSAGE
+       STATUS
        ========================================== */
 
     function showStatus(
       elementId,
       message,
-      success = true
+      type = 'success'
     ) {
 
       const element =
-        document.getElementById(elementId);
+        document.getElementById(
+          elementId
+        );
 
-      element.textContent = message;
+      element.textContent =
+        message;
 
-      element.className =
-        success
-          ? 'status-message status-success'
-          : 'status-message status-error';
+      if (type === 'success') {
+
+        element.className =
+          'status-message status-success';
+
+      }
+
+      else if (type === 'error') {
+
+        element.className =
+          'status-message status-error';
+
+      }
+
+      else {
+
+        element.className =
+          'status-message status-loading';
+
+      }
+
+    }
+
+
+    /* ==========================================
+       NORMALIZE DATA
+       ========================================== */
+
+    function normalizeStore(data) {
+
+      const safe =
+        data && typeof data === 'object'
+          ? data
+          : {};
+
+      const details =
+        safe.details &&
+        typeof safe.details === 'object'
+          ? safe.details
+          : {};
+
+      const photos =
+        Array.isArray(safe.photos)
+          ? safe.photos
+          : [];
+
+
+      return {
+
+        details: {
+
+          title:
+            typeof details.title === 'string'
+              ? details.title
+              : DEFAULT_STORE.details.title,
+
+          letter:
+            typeof details.letter === 'string'
+              ? details.letter
+              : DEFAULT_STORE.details.letter,
+
+          date:
+            typeof details.date === 'string'
+              ? details.date
+              : DEFAULT_STORE.details.date,
+
+          venue:
+            typeof details.venue === 'string'
+              ? details.venue
+              : DEFAULT_STORE.details.venue
+
+        },
+
+        photos:
+          photos.filter(photo =>
+            photo &&
+            typeof photo.url === 'string' &&
+            typeof photo.category === 'string'
+          )
+
+      };
+
+    }
+
+
+    /* ==========================================
+       LOAD FROM SUPABASE
+       ========================================== */
+
+    async function loadFromSupabase(
+      showErrors = false
+    ) {
+
+      try {
+
+        const result =
+          await supabaseClient
+            .from('wedding_data')
+            .select('data')
+            .eq('id', 'store')
+            .maybeSingle();
+
+
+        if (result.error) {
+
+          throw result.error;
+
+        }
+
+
+        if (!result.data) {
+
+          throw new Error(
+            'The "store" record was not found in wedding_data.'
+          );
+
+        }
+
+
+        globalStore =
+          normalizeStore(
+            result.data.data
+          );
+
+
+        renderData();
+
+        return true;
+
+      }
+
+      catch (error) {
+
+        console.error(
+          'SUPABASE LOAD ERROR:',
+          error
+        );
+
+
+        if (showErrors) {
+
+          alert(
+            'Could not load the wedding data from Supabase.\n\n' +
+            error.message
+          );
+
+        }
+
+        return false;
+
+      }
+
+    }
+
+
+    /* ==========================================
+       SAVE EVERYTHING TO SUPABASE
+       ========================================== */
+
+    async function saveStoreToSupabase() {
+
+      const cleanStore =
+        normalizeStore(
+          globalStore
+        );
+
+
+      const result =
+        await supabaseClient
+          .from('wedding_data')
+          .upsert(
+
+            {
+
+              id: 'store',
+
+              data: cleanStore
+
+            },
+
+            {
+
+              onConflict: 'id'
+
+            }
+
+          );
+
+
+      if (result.error) {
+
+        throw result.error;
+
+      }
+
+
+      globalStore =
+        cleanStore;
 
     }
 
@@ -952,24 +1204,39 @@
        ========================================== */
 
     document
-      .getElementById('admin-login-form')
+      .getElementById(
+        'admin-login-form'
+      )
       .addEventListener(
         'submit',
-        async (e) => {
+        async function(e) {
 
           e.preventDefault();
 
+
           const user =
             document
-              .getElementById('admin-username')
+              .getElementById(
+                'admin-username'
+              )
               .value
               .trim();
 
+
           const pass =
             document
-              .getElementById('admin-password')
+              .getElementById(
+                'admin-password'
+              )
               .value
               .trim();
+
+
+          const loginError =
+            document
+              .getElementById(
+                'login-error'
+              );
 
 
           if (
@@ -977,23 +1244,59 @@
             pass === '182002'
           ) {
 
-            isAdminLoggedIn = true;
+            loginError.style.display =
+              'none';
+
+
+            isAdminLoggedIn =
+              true;
+
 
             document
               .getElementById(
                 'admin-login-form'
               )
-              .style.display = 'none';
+              .style.display =
+              'none';
 
 
             document
               .getElementById(
                 'admin-dashboard-controls'
               )
-              .style.display = 'block';
+              .style.display =
+              'block';
 
 
-            await loadFromSupabase();
+            const loaded =
+              await loadFromSupabase(
+                true
+              );
+
+
+            if (!loaded) {
+
+              isAdminLoggedIn =
+                false;
+
+              document
+                .getElementById(
+                  'admin-login-form'
+                )
+                .style.display =
+                'block';
+
+              document
+                .getElementById(
+                  'admin-dashboard-controls'
+                )
+                .style.display =
+                'none';
+
+              return;
+
+            }
+
 
             renderData();
 
@@ -1001,11 +1304,8 @@
 
           else {
 
-            document
-              .getElementById(
-                'login-error'
-              )
-              .style.display = 'block';
+            loginError.style.display =
+              'block';
 
           }
 
@@ -1018,12 +1318,26 @@
        ========================================== */
 
     document
-      .getElementById('details-form')
+      .getElementById(
+        'details-form'
+      )
       .addEventListener(
         'submit',
-        async (e) => {
+        async function(e) {
 
           e.preventDefault();
+
+
+          if (isSaving) {
+
+            return;
+
+          }
+
+
+          isSaving =
+            true;
+
 
           const btn =
             document
@@ -1031,9 +1345,20 @@
                 'save-details-btn'
               );
 
-          btn.disabled = true;
 
-          btn.textContent = 'Saving...';
+          btn.disabled =
+            true;
+
+
+          btn.textContent =
+            'Saving...';
+
+
+          showStatus(
+            'details-status',
+            'Saving to Supabase...',
+            'loading'
+          );
 
 
           const newDetails = {
@@ -1043,21 +1368,24 @@
                 .getElementById(
                   'admin-title'
                 )
-                .value,
+                .value
+                .trim(),
 
             letter:
               document
                 .getElementById(
                   'admin-letter'
                 )
-                .value,
+                .value
+                .trim(),
 
             date:
               document
                 .getElementById(
                   'admin-date'
                 )
-                .value,
+                .value
+                .trim(),
 
             venue:
               document
@@ -1065,45 +1393,18 @@
                   'admin-venue'
                 )
                 .value
+                .trim()
 
           };
 
 
           try {
 
-            const {
-              error
-            } =
-              await supabaseClient
-                .from('wedding_details')
-                .upsert({
-
-                  id: 1,
-
-                  title:
-                    newDetails.title,
-
-                  wedding_letter:
-                    newDetails.letter,
-
-                  wedding_date:
-                    newDetails.date,
-
-                  venue_details:
-                    newDetails.venue
-
-                });
-
-
-            if (error) {
-
-              throw error;
-
-            }
-
-
             globalStore.details =
               newDetails;
+
+
+            await saveStoreToSupabase();
 
 
             renderData();
@@ -1111,8 +1412,8 @@
 
             showStatus(
               'details-status',
-              '✓ Saved successfully. The public website has been updated.',
-              true
+              '✓ Saved successfully! Everyone will receive the updated information when they open or refresh the website.',
+              'success'
             );
 
           }
@@ -1120,22 +1421,28 @@
           catch (error) {
 
             console.error(
-              'SAVE DETAILS ERROR:',
+              'SAVE ERROR:',
               error
             );
 
 
             showStatus(
               'details-status',
-              '✕ Could not save: ' +
+              '✕ SAVE FAILED: ' +
               error.message,
-              false
+              'error'
             );
 
           }
 
 
-          btn.disabled = false;
+          isSaving =
+            false;
+
+
+          btn.disabled =
+            false;
+
 
           btn.textContent =
             'Save Invitation Text Live';
@@ -1149,12 +1456,21 @@
        ========================================== */
 
     document
-      .getElementById('photo-form')
+      .getElementById(
+        'photo-form'
+      )
       .addEventListener(
         'submit',
-        async (e) => {
+        async function(e) {
 
           e.preventDefault();
+
+
+          if (isUploading) {
+
+            return;
+
+          }
 
 
           const category =
@@ -1190,7 +1506,7 @@
             showStatus(
               'photo-status',
               'Please select at least one photo.',
-              false
+              'error'
             );
 
             return;
@@ -1198,31 +1514,76 @@
           }
 
 
-          btn.disabled = true;
+          isUploading =
+            true;
+
+
+          btn.disabled =
+            true;
+
 
           btn.textContent =
             'Uploading...';
 
 
-          let successCount = 0;
+          showStatus(
+            'photo-status',
+            `Uploading ${files.length} photo(s)...`,
+            'loading'
+          );
+
+
+          let successCount =
+            0;
 
 
           try {
 
             for (
-              const file of files
+              let i = 0;
+              i < files.length;
+              i++
             ) {
 
+              const file =
+                files[i];
+
+
               /* =========================
-                 Upload image to ImgBB
+                 Check file type
+                 ========================= */
+
+              if (
+                !file.type.startsWith(
+                  'image/'
+                )
+              ) {
+
+                throw new Error(
+                  `${file.name} is not an image file.`
+                );
+
+              }
+
+
+              /* =========================
+                 Upload to ImgBB
                  ========================= */
 
               const formData =
                 new FormData();
 
+
               formData.append(
                 'image',
                 file
+              );
+
+
+              showStatus(
+                'photo-status',
+                `Uploading photo ${i + 1} of ${files.length}...`,
+                'loading'
               );
 
 
@@ -1239,16 +1600,27 @@
                 );
 
 
+              if (!response.ok) {
+
+                throw new Error(
+                  `Image hosting returned HTTP ${response.status}.`
+                );
+
+              }
+
+
               const data =
                 await response.json();
 
 
               if (
-                !data.success
+                !data.success ||
+                !data.data ||
+                !data.data.url
               ) {
 
                 throw new Error(
-                  'Image hosting upload failed.'
+                  'ImgBB did not return a valid image URL.'
                 );
 
               }
@@ -1259,30 +1631,29 @@
 
 
               /* =========================
-                 Save image URL to Supabase
+                 Add to Supabase data
                  ========================= */
 
-              const {
-                error
-              } =
-                await supabaseClient
-                  .from('timeline_photos')
-                  .insert({
+              globalStore.photos.push({
 
-                    category:
-                      category,
+                id:
+                  'photo_' +
+                  Date.now() +
+                  '_' +
+                  Math.random()
+                    .toString(36)
+                    .substring(2, 9),
 
-                    image_url:
-                      imageUrl
+                category:
+                  category,
 
-                  });
+                url:
+                  imageUrl,
 
+                created_at:
+                  new Date().toISOString()
 
-              if (error) {
-
-                throw error;
-
-              }
+              });
 
 
               successCount++;
@@ -1290,19 +1661,32 @@
             }
 
 
-            await loadFromSupabase();
+            /* =========================
+               Save the complete store
+               ========================= */
+
+            showStatus(
+              'photo-status',
+              'Images uploaded. Saving to Supabase...',
+              'loading'
+            );
+
+
+            await saveStoreToSupabase();
+
 
             renderData();
 
 
             showStatus(
               'photo-status',
-              `✓ ${successCount} photo(s) uploaded successfully and saved to the website.`,
-              true
+              `✓ ${successCount} photo(s) uploaded and saved successfully. They are now part of the public website.`,
+              'success'
             );
 
 
-            fileInput.value = '';
+            fileInput.value =
+              '';
 
           }
 
@@ -1316,15 +1700,21 @@
 
             showStatus(
               'photo-status',
-              '✕ Upload failed: ' +
+              '✕ UPLOAD/SAVE FAILED: ' +
               error.message,
-              false
+              'error'
             );
 
           }
 
 
-          btn.disabled = false;
+          isUploading =
+            false;
+
+
+          btn.disabled =
+            false;
+
 
           btn.textContent =
             'Upload Photos Live';
@@ -1363,25 +1753,35 @@
 
       try {
 
-        const {
-          error
-        } =
-          await supabaseClient
-            .from('timeline_photos')
-            .delete()
-            .eq('id', photoId);
+        const oldPhotos =
+          globalStore.photos;
 
 
-        if (error) {
+        globalStore.photos =
+          oldPhotos.filter(
+            photo =>
+              photo.id !== photoId
+          );
 
-          throw error;
 
-        }
+        showStatus(
+          'photo-status',
+          'Deleting photo...',
+          'loading'
+        );
 
 
-        await loadFromSupabase();
+        await saveStoreToSupabase();
+
 
         renderData();
+
+
+        showStatus(
+          'photo-status',
+          '✓ Photo deleted successfully.',
+          'success'
+        );
 
       }
 
@@ -1392,10 +1792,22 @@
           error
         );
 
-        alert(
-          'Could not delete photo: ' +
-          error.message
+
+        showStatus(
+          'photo-status',
+          '✕ Could not delete photo: ' +
+          error.message,
+          'error'
         );
+
+
+        /*
+         * Reload the real cloud copy
+         * so the browser does not remain
+         * in an incorrect state.
+         */
+
+        await loadFromSupabase();
 
       }
 
@@ -1403,136 +1815,21 @@
 
 
     /* ==========================================
-       LOAD DATA FROM SUPABASE
-       ========================================== */
-
-    async function loadFromSupabase() {
-
-      try {
-
-        /* =========================
-           Load wedding details
-           ========================= */
-
-        const {
-          data: detailsData,
-          error: detailsError
-        } =
-          await supabaseClient
-            .from('wedding_details')
-            .select('*')
-            .eq('id', 1)
-            .maybeSingle();
-
-
-        if (detailsError) {
-
-          throw detailsError;
-
-        }
-
-
-        if (detailsData) {
-
-          globalStore.details = {
-
-            title:
-              detailsData.title ||
-              '',
-
-            letter:
-              detailsData.wedding_letter ||
-              '',
-
-            date:
-              detailsData.wedding_date ||
-              '',
-
-            venue:
-              detailsData.venue_details ||
-              ''
-
-          };
-
-        }
-
-
-        /* =========================
-           Load photos
-           ========================= */
-
-        const {
-          data: photosData,
-          error: photosError
-        } =
-          await supabaseClient
-            .from('timeline_photos')
-            .select('*')
-            .order(
-              'created_at',
-              {
-                ascending: true
-              }
-            );
-
-
-        if (photosError) {
-
-          throw photosError;
-
-        }
-
-
-        globalStore.photos =
-          (photosData || [])
-            .map(photo => ({
-
-              id:
-                photo.id,
-
-              category:
-                photo.category,
-
-              url:
-                photo.image_url
-
-            }));
-
-
-        renderData();
-
-
-      }
-
-      catch (error) {
-
-        console.error(
-          'SUPABASE LOAD ERROR:',
-          error
-        );
-
-
-        console.error(
-          'If this fails, check Supabase project/API/network.'
-        );
-
-      }
-
-    }
-
-
-    /* ==========================================
-       RENDER WEBSITE
+       RENDER DATA
        ========================================== */
 
     function renderData() {
+
+      /* =========================
+         Public invitation
+         ========================= */
 
       document
         .getElementById(
           'display-title'
         )
         .textContent =
-          globalStore.details.title;
+        globalStore.details.title;
 
 
       document
@@ -1540,7 +1837,7 @@
           'display-letter'
         )
         .textContent =
-          globalStore.details.letter;
+        globalStore.details.letter;
 
 
       document
@@ -1548,7 +1845,7 @@
           'display-date'
         )
         .textContent =
-          globalStore.details.date;
+        globalStore.details.date;
 
 
       document
@@ -1556,11 +1853,11 @@
           'display-venue'
         )
         .textContent =
-          globalStore.details.venue;
+        globalStore.details.venue;
 
 
       /* =========================
-         Update admin fields
+         Admin fields
          ========================= */
 
       document
@@ -1568,7 +1865,7 @@
           'admin-title'
         )
         .value =
-          globalStore.details.title;
+        globalStore.details.title;
 
 
       document
@@ -1576,7 +1873,7 @@
           'admin-letter'
         )
         .value =
-          globalStore.details.letter;
+        globalStore.details.letter;
 
 
       document
@@ -1584,7 +1881,7 @@
           'admin-date'
         )
         .value =
-          globalStore.details.date;
+        globalStore.details.date;
 
 
       document
@@ -1592,7 +1889,7 @@
           'admin-venue'
         )
         .value =
-          globalStore.details.venue;
+        globalStore.details.venue;
 
 
       /* =========================
@@ -1604,8 +1901,12 @@
           '.photo-grid'
         )
         .forEach(
-          grid =>
-            grid.innerHTML = ''
+          grid => {
+
+            grid.innerHTML =
+              '';
+
+          }
         );
 
 
@@ -1640,35 +1941,96 @@
               'classic-frame';
 
 
-            const deleteBtn =
-              isAdminLoggedIn
-                ? `
-                  <button
-                    class="delete-btn"
-                    onclick="deletePhoto(${photo.id})"
-                    title="Delete photo"
-                  >
-                    ✕
-                  </button>
-                `
-                : '';
+            /* =========================
+               Delete button
+               ========================= */
+
+            if (isAdminLoggedIn) {
+
+              const deleteBtn =
+                document.createElement(
+                  'button'
+                );
 
 
-            frame.innerHTML = `
+              deleteBtn.className =
+                'delete-btn';
 
-              ${deleteBtn}
 
-              <div class="inner-border">
+              deleteBtn.textContent =
+                '✕';
 
-                <img
-                  src="${escapeHtml(photo.url)}"
-                  alt="Wedding memory"
-                  loading="lazy"
-                />
 
-              </div>
+              deleteBtn.title =
+                'Delete photo';
 
-            `;
+
+              deleteBtn.onclick =
+                function() {
+
+                  deletePhoto(
+                    photo.id
+                  );
+
+                };
+
+
+              frame.appendChild(
+                deleteBtn
+              );
+
+            }
+
+
+            /* =========================
+               Frame
+               ========================= */
+
+            const inner =
+              document.createElement(
+                'div'
+              );
+
+
+            inner.className =
+              'inner-border';
+
+
+            const img =
+              document.createElement(
+                'img'
+              );
+
+
+            img.src =
+              photo.url;
+
+
+            img.alt =
+              'Wedding memory';
+
+
+            img.loading =
+              'lazy';
+
+
+            img.onerror =
+              function() {
+
+                this.alt =
+                  'Image could not be loaded';
+
+              };
+
+
+            inner.appendChild(
+              img
+            );
+
+
+            frame.appendChild(
+              inner
+            );
 
 
             grid.appendChild(
@@ -1682,31 +2044,50 @@
 
 
     /* ==========================================
-       BASIC HTML ESCAPING
+       AUTOMATIC CLOUD REFRESH
+       ==========================================
+
+       Every 10 seconds the public page checks
+       Supabase for the newest information.
+
+       This means if someone already has the
+       website open, changes can appear without
+       requiring a manual page refresh.
        ========================================== */
 
-    function escapeHtml(
-      value
-    ) {
+    setInterval(
+      async function() {
 
-      const div =
-        document.createElement(
-          'div'
+        if (isSaving || isUploading) {
+
+          return;
+
+        }
+
+
+        await loadFromSupabase(
+          false
         );
 
-      div.textContent =
-        value;
-
-      return div.innerHTML;
-
-    }
+      },
+      10000
+    );
 
 
     /* ==========================================
        INITIAL LOAD
        ========================================== */
 
-    loadFromSupabase();
+    document.addEventListener(
+      'DOMContentLoaded',
+      async function() {
+
+        await loadFromSupabase(
+          true
+        );
+
+      }
+    );
 
   </script>
 
